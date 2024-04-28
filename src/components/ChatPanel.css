@@ -1,6 +1,6 @@
 .chat-panel {
   position: absolute;
-  z-index: 1;
+  z-index: 5;
   width: 30vw;
   height: 20vh;
   bottom: 20px;
@@ -26,10 +26,12 @@
   left: 20px;
   cursor: pointer;
   border-radius: 50%;
-  background-color: #f1f1f1;
+  background-color: transparent;
+  color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 2.8em;
   font-weight: bold;
+  z-index: 5;
 }
