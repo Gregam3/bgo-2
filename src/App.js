@@ -14,7 +14,7 @@ function App() {
             <div className={"board"}>
                 {range(1, 41).map(i => <div className={"board-tile"}>{i}</div>)}
             </div>
-            <div>
+            <div className={"panels-container"}>
                 <CenterPanel/>
                 <LeftPanel/>
                 <RightPanel/>

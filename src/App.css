@@ -8,7 +8,8 @@
     letter-spacing: 0.1em;
     font-size: 2.5em;
     user-select: none;
-    background: #463f4b;
+    background-image: url("../public/tavern-3.webp");
+    background-size: cover;
 }
 
 .center-panel {
