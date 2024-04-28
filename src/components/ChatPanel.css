@@ -8,9 +8,30 @@
   border: 1px solid #000;
   background: #f1f1f1;
   padding: 10px;
+  opacity: 0.5;
 }
 
-.chat-panel::after {
-  content: "x";
+.close-button {
   margin-left: 250px;
+  cursor: pointer;
+}
+
+.chat-panel.hidden {
+  display: none;
+}
+
+.open-icon {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #f1f1f1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.4em;
+  font-weight: bold;
 }
