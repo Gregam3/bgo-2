@@ -12,7 +12,7 @@ function App() {
     return (
         <div className="app-container">
             <div className={"board"}>
-                {range(0, 41).map(i => <div className={"board-tile"}>{i}</div>)}
+                {range(1, 41).map(i => <div className={"board-tile"}>{i}</div>)}
             </div>
             <div>
                 <CenterPanel/>
