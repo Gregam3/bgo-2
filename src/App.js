@@ -1,25 +1,27 @@
-import logo from './logo.svg';
 import './App.css';
+import ChatPanel from "./components/ChatPanel";
+import CenterPanel from "./components/CenterPanel";
+import LeftPanel from "./components/LeftPanel";
+import RightPanel from "./RightPanel";
+
+function range(start = 0, end) {
+    return Array.from({length: end - start}, (v, k) => k + start);
+}
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <div className="app-container">
+            <div className={"board"}>
+                {range(0, 41).map(i => <div className={"board-tile"}>{i}</div>)}
+            </div>
+            <div>
+                <CenterPanel/>
+                <LeftPanel/>
+                <RightPanel/>
+            </div>
+            <ChatPanel/>
+        </div>
+    );
 }
 
 export default App;
