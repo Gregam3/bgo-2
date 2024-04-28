@@ -9,6 +9,7 @@
     font-size: 2.5em;
     user-select: none;
     background-image: url("../public/tavern-3.webp");
+    background-position: center bottom 20vh;
     background-size: cover;
 }
 
@@ -22,7 +23,9 @@
     top: 26.5vh;
     left: 25vw;
     background-image: url("../public/oak-wood.svg");
+    background-size: cover;
     color: white;
+    z-index: 2;
 }
 
 .left-panel, .right-panel {
@@ -33,10 +36,23 @@
     font-weight: bold;
     border: 1px solid #000;
     position: absolute;
-    width: 23.7vw;
-    height: 52.5vh;
-    top: 29vh;
+    width: 25vw;
+    height: 53vh;
+    top: 33vh;
     background-image: url("../public/oak-wood.svg");
+    background-size: cover;
+    z-index: 3;
+}
+
+.bottom-panel {
+    width: 90vw;
+    height: 20vw;
+    position: absolute;
+    bottom: 0;
+    background-image: url("../public/table.webp");
+    background-size: cover;
+    background-position: center top 50vh;
+    z-index: 1;
 }
 
 .panel-content {

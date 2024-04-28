@@ -19,6 +19,7 @@ function App() {
                 <LeftPanel/>
                 <RightPanel/>
             </div>
+            <div className={"bottom-panel"}/>
             <ChatPanel/>
         </div>
     );
