@@ -1,12 +1,12 @@
 .center-panel {
     border: 1px solid #000;
     height: 50vh;
-    width: 50vw;
+    width: 48.2vw;
     background: white;
     margin: 0 auto;
     text-align: center;
     position: absolute;
-    top: 300px;
+    top: 26.5vh;
     left: 25vw;
 }
 
@@ -30,9 +30,9 @@
     font-weight: bold;
     border: 1px solid #000;
     position: absolute;
-    width: 350px;
-    height: 650px;
-    top: 340px;
+    width: 23.7vw;
+    height: 52.5vh;
+    top: 29vh;
 }
 
 .panel-content {
