@@ -1,0 +1,16 @@
+.chat-panel {
+  position: absolute;
+  z-index: 1;
+  width: 350px;
+  height: 300px;
+  bottom: 20px;
+  left: 5px;
+  border: 1px solid #000;
+  background: #f1f1f1;
+  padding: 10px;
+}
+
+.chat-panel::after {
+  content: "x";
+  margin-left: 250px;
+}
