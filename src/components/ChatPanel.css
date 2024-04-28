@@ -1,16 +1,35 @@
 .chat-panel {
   position: absolute;
   z-index: 1;
-  width: 350px;
-  height: 300px;
+  width: 30vw;
+  height: 20vh;
   bottom: 20px;
   left: 5px;
   border: 1px solid #000;
   background: #f1f1f1;
   padding: 10px;
+  opacity: 0.5;
 }
 
-.chat-panel::after {
-  content: "x";
-  margin-left: 250px;
+.close-button {
+  margin-left: 20vw;
+  cursor: pointer;
+}
+
+.chat-panel.hidden {
+  display: none;
+}
+
+.open-icon {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  cursor: pointer;
+  border-radius: 50%;
+  background-color: #f1f1f1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.8em;
+  font-weight: bold;
 }
