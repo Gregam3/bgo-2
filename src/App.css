@@ -55,18 +55,19 @@
 .board {
     width: 90vw;
     border: 1px solid #000;
-    height: 10vh;
+    height: 5vh;
     margin: 50px auto;
     overflow: hidden;
 }
 
 .board-tile {
     width: 2.04vw;
-    height: 10vh;
+    height: 5vh;
     border: 1px solid #000;
     display: inline-block;
     text-align: center;
-    line-height: 10vh;
+    line-height: 5.5vh;
     font-size: 0.3em;
-    background: #fff;
+    background: #ffcb5f;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
 }
