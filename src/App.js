@@ -20,6 +20,7 @@ function App() {
                 <RightPanel/>
             </div>
             <div className={"bottom-panel"}/>
+            <div className={"table-panel"}></div>
             <ChatPanel/>
         </div>
     );

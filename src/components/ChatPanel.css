@@ -2,17 +2,23 @@
   position: absolute;
   z-index: 4;
   width: 30vw;
-  height: 20vh;
-  bottom: 20px;
   left: 5px;
-  border: 1px solid #000;
-  background: #f1f1f1;
-  padding: 10px;
-  opacity: 0.5;
+  bottom: 0px;
+  border: 0px solid;
+  border-image-source: url("ChatBorder.png");
+  border-image-slice: 15 15 15 15 fill;
+  border-image-width: 10px 10px 10px 10px;
+  border-image-outset: 0px 0px 0px 0px;
+  border-image-repeat: round round;
+  /*background: #f1f1f1;*/
+  padding: 20px;
+  opacity: 1;
+  color: yellow;
 }
 
 .close-button {
-  margin-left: 20vw;
+  margin-left: 30vw;
+  margin-top: -16vh;
   cursor: pointer;
 }
 
@@ -26,10 +32,41 @@
   left: 20px;
   cursor: pointer;
   border-radius: 50%;
-  background-color: #f1f1f1;
+  background-color: transparent;
+  color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.5em;
+  font-size: 0.8em;
   font-weight: bold;
+  z-index: 5;
+}
+
+.messages-container {
+  flex: 1;
+  overflow-y: auto;
+  max-width: 100%;
+}
+
+.message-bubble {
+  padding: 1px;
+  margin-bottom: 0px;
+  padding-left: 55px;
+  border-radius: 20px;
+  max-width: 80%;
+  font-size: small;
+  word-wrap: break-word;
+  display: block;
+}
+
+.text-input {
+  width: calc(100% - 50px);
+  padding: 5px;
+  padding-left: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  opacity: 0.5;
+  margin-left: 18px;
+  margin-bottom: 14px;
+  z-index: 6;
 }

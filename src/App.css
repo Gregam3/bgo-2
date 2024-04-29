@@ -13,6 +13,17 @@
     background-size: cover;
 }
 
+.table-panel {
+    position: absolute;
+    width: 100vw;
+    height: 25vh;
+    background-image: url("../public/table.webp");
+    background-size: cover;
+    background-position: center top 30vh;
+    bottom: 0;
+    z-index: 1;
+}
+
 .center-panel {
     border: 1px solid #000;
     height: 60vh;
@@ -25,7 +36,7 @@
     background-image: url("../public/oak-wood.svg");
     background-size: cover;
     color: white;
-    z-index: 2;
+    z-index: 3;
 }
 
 .left-panel, .right-panel {
