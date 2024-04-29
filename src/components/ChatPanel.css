@@ -2,13 +2,19 @@
   position: absolute;
   z-index: 1;
   width: 30vw;
-  height: 20vh;
-  bottom: 20px;
+  height: 30vh;
+  bottom: 0px;
   left: 5px;
-  border: 1px solid #000;
-  background: #f1f1f1;
+  border: 20px solid;
+  border-image-source: url("ChatBorder.png");
+  border-image-slice: 15 15 15 15 fill;
+  border-image-width: 10px 10px 10px 10px;
+  border-image-outset: 0px 0px 0px 0px;
+  border-image-repeat: round round;
+  /*background: #f1f1f1;*/
   padding: 10px;
   opacity: 0.5;
+  color: yellow;
 }
 
 .close-button {
