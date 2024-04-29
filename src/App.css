@@ -10,6 +10,18 @@
     user-select: none;
     background-image: url("../public/tavern-3.webp");
     background-size: cover;
+    background-position: center bottom 28vh;
+}
+
+.table-panel {
+    position: absolute;
+    width: 100vw;
+    height: 25vh;
+    background-image: url("../public/table.webp");
+    background-size: cover;
+    background-position: center top 30vh;
+    bottom: 0;
+    z-index: 1;
 }
 
 .center-panel {
@@ -23,6 +35,7 @@
     left: 25vw;
     background-image: url("../public/oak-wood.svg");
     color: white;
+    z-index: 3;
 }
 
 .left-panel, .right-panel {
@@ -34,9 +47,10 @@
     border: 1px solid #000;
     position: absolute;
     width: 23.7vw;
-    height: 52.5vh;
+    height: 53vh;
     top: 29vh;
     background-image: url("../public/oak-wood.svg");
+    z-index: 3;
 }
 
 .panel-content {

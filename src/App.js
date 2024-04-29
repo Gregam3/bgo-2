@@ -19,6 +19,7 @@ function App() {
                 <LeftPanel/>
                 <RightPanel/>
             </div>
+            <div className={"table-panel"}></div>
             <ChatPanel/>
         </div>
     );
