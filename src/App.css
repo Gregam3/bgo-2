@@ -1,101 +1,33 @@
 .app-container {
-    display: flex;
-    justify-content: center;
-    height: 100vh;
-    font-family: "Princess Sofia", sans-serif;
-    font-weight: 100;
-    font-style: normal;
-    letter-spacing: 0.1em;
-    font-size: 2.5em;
-    user-select: none;
-    background-image: url("../public/tavern-3.webp");
-    background-position: center bottom 20vh;
-    background-size: cover;
-}
-
-.table-panel {
-    position: absolute;
+    margin: auto;
     width: 100vw;
-    height: 25vh;
-    background-image: url("../public/table.webp");
-    background-size: cover;
-    background-position: center top 30vh;
-    bottom: 0;
-    z-index: 1;
-}
-
-.center-panel {
-    border: 1px solid #000;
-    height: 60vh;
-    width: 48.2vw;
-    margin: 0 auto;
-    text-align: center;
-    position: absolute;
-    top: 20vh;
-    left: 25vw;
-    background-image: url("../public/oak-wood.svg");
-    background-size: cover;
-    color: white;
-    z-index: 3;
-}
-
-.left-panel, .right-panel {
-    color: white;
     display: flex;
     justify-content: center;
-    font-size: 30px;
-    font-weight: bold;
-    border: 1px solid #000;
-    position: absolute;
-    width: 25vw;
-    height: 63vh;
-    top: 27vh;
-    background-image: url("../public/oak-wood.svg");
-    background-size: cover;
-    z-index: 3;
 }
 
-.bottom-panel {
-    width: 90vw;
-    height: 20vw;
-    position: absolute;
-    bottom: 0;
-    background-image: url("../public/table.webp");
-    background-size: cover;
-    background-position: center top 50vh;
-    z-index: 1;
-}
-
-.panel-content {
+.background-container {
+    background-image: url("/public/images/new-background.png");
+    background-size: 98%;
+    /* offset background by 100px*/
+    background-position: 50px;
+    height: 97vh;
+    width: 100vw;
     padding: 20px;
 }
 
-.left-panel {
-    left: 5px;
-    transform: skew(-20deg) rotate(-20deg);
-}
-
-.right-panel {
-    right: 5px;
-    transform: skew(20deg) rotate(20deg);
-}
-
-.board {
-    width: 90vw;
-    border: 1px solid #000;
-    height: 5vh;
-    margin: 50px auto;
-    overflow: hidden;
-}
-
-.board-tile {
-    width: 2.04vw;
-    height: 5vh;
-    border: 1px solid #000;
-    display: inline-block;
+.app-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
     text-align: center;
-    line-height: 5.5vh;
-    font-size: 0.3em;
-    background: #ffcb5f;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+    margin-top: 20px;
 }
+
+.app-content h1 {
+    font-family: 'Sedan SC', sans-serif;
+    color: #6b4a36;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 2px #000000;
+}
+

@@ -3,6 +3,7 @@ import ChatPanel from "./components/ChatPanel";
 import CenterPanel from "./components/CenterPanel";
 import LeftPanel from "./components/LeftPanel";
 import RightPanel from "./RightPanel";
+import Card from "./components/Card";
 
 function range(start = 0, end) {
     return Array.from({length: end - start}, (v, k) => k + start);
@@ -11,17 +12,15 @@ function range(start = 0, end) {
 function App() {
     return (
         <div className="app-container">
-            <div className={"board"}>
-                {range(1, 41).map(i => <div className={"board-tile"}>{i}</div>)}
+            <div className={"background-container"}>
+                <div className={"app-content"}>
+                    <h1>BGO</h1>
+                    <Card title={"Card example"}
+                          description={"This is an example description"}
+                          imagePath={"/images/tavern.png"}
+                    />
+                </div>
             </div>
-            <div className={"panels-container"}>
-                <CenterPanel/>
-                <LeftPanel/>
-                <RightPanel/>
-            </div>
-            <div className={"bottom-panel"}/>
-            <div className={"table-panel"}></div>
-            <ChatPanel/>
         </div>
     );
 }

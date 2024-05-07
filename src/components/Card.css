@@ -1,0 +1,46 @@
+.card {
+    background: url("/public/images/card-background-4.png") -5px -5px;
+    background-size: 105%;
+    width: 300px;
+    height: 390px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 5);
+    border-radius: 40px;
+    margin: auto;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+/*    cursor drag*/
+    cursor: grab;
+    user-select: none;
+}
+
+.card img {
+    max-width: 100%;
+    height: auto;
+    margin: 20px 0;
+    border-radius: 5px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    user-select: none;
+}
+
+.card h2 {
+    margin: 0 5px;
+    font-size: 1.75em;
+    color: #382a1c;
+    text-shadow: 1px 1px 1px #000000;
+    font-family: 'Sedan SC', sans-serif;
+    font-weight: 800;
+}
+
+.card p {
+    background: rgba(241, 221, 184, 1);
+    margin: 0;
+    padding: 10px;
+    font-size: 1.25em;
+    font-weight: 600;
+    line-height: 0.9em;
+    color: #4a3f35;
+    border-radius: 5px;
+    height: 110px;
+    font-family: 'Sedan SC', sans-serif;
+}
