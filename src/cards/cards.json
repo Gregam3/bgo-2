@@ -1,0 +1,37 @@
+{
+  "D20": {
+    "title": "D20",
+    "description": "Roll a 20 sided die for movement",
+    "imagePath": "/images/tavern.png",
+    "cardType": "SPELL",
+    "cardQuality": "LEGENDARY"
+  },
+  "D12": {
+    "title": "D12",
+    "description": "Roll a 12 sided die for movement",
+    "imagePath": "/images/tavern.png",
+    "cardType": "SPELL",
+    "cardQuality": "EPIC"
+  },
+  "D10": {
+    "title": "D10",
+    "description": "Roll a 10 sided die for movement",
+    "imagePath": "/images/tavern.png",
+    "cardType": "SPELL",
+    "cardQuality": "UNCOMMON"
+  },
+  "D6": {
+    "title": "D6",
+    "description": "Roll a 6 sided die for movement",
+    "imagePath": "/images/tavern.png",
+    "cardType": "SPELL",
+    "cardQuality": "COMMON"
+  },
+  "D4": {
+    "title": "D4",
+    "description": "Roll a 4 sided die for movement",
+    "imagePath": "/images/tavern.png",
+    "cardType": "SPELL",
+    "cardQuality": "COMMON"
+  }
+}

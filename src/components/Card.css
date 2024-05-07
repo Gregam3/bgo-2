@@ -14,6 +14,18 @@
     user-select: none;
 }
 
+.card-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    height: 30px;
+}
+
+.card .card-header img {
+    box-shadow: none;
+}
+
 .card img {
     max-width: 100%;
     height: auto;
