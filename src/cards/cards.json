@@ -1,37 +1,51 @@
 {
+  "D100": {
+    "title": "D100",
+    "description": "Roll a 100 sided die for movement",
+    "imagePath": "/images/dice-icons/tavern.png",
+    "cardType": "roll",
+    "cardQuality": "LEGENDARY"
+  },
   "D20": {
     "title": "D20",
     "description": "Roll a 20 sided die for movement",
-    "imagePath": "/images/tavern.png",
-    "cardType": "SPELL",
-    "cardQuality": "LEGENDARY"
+    "imagePath": "/images/dice-icons/d20-icon.png",
+    "cardType": "roll",
+    "cardQuality": "EPIC"
   },
   "D12": {
     "title": "D12",
     "description": "Roll a 12 sided die for movement",
-    "imagePath": "/images/tavern.png",
-    "cardType": "SPELL",
-    "cardQuality": "EPIC"
+    "imagePath": "/images/dice-icons/d12-icon.png",
+    "cardType": "roll",
+    "cardQuality": "RARE"
   },
   "D10": {
     "title": "D10",
     "description": "Roll a 10 sided die for movement",
-    "imagePath": "/images/tavern.png",
-    "cardType": "SPELL",
+    "imagePath": "/images/dice-icons/d10-icon.png",
+    "cardType": "roll",
+    "cardQuality": "RARE"
+  },
+  "D8": {
+    "title": "D8",
+    "description": "Roll an 8 sided die for movement",
+    "imagePath": "/images/dice-icons/d8-icon.png",
+    "cardType": "roll",
     "cardQuality": "UNCOMMON"
   },
   "D6": {
     "title": "D6",
     "description": "Roll a 6 sided die for movement",
-    "imagePath": "/images/tavern.png",
-    "cardType": "SPELL",
+    "imagePath": "/images/dice-icons/d6-icon.png",
+    "cardType": "roll",
     "cardQuality": "COMMON"
   },
   "D4": {
     "title": "D4",
     "description": "Roll a 4 sided die for movement",
-    "imagePath": "/images/tavern.png",
-    "cardType": "SPELL",
+    "imagePath": "/images/dice-icons/d4-icon.png",
+    "cardType": "roll",
     "cardQuality": "COMMON"
   }
 }

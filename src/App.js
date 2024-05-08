@@ -1,9 +1,6 @@
 import './App.css';
-import Card, {CARD_QUALITY, CARD_TYPE} from "./components/Card";
-
-function range(start = 0, end) {
-    return Array.from({length: end - start}, (v, k) => k + start);
-}
+import Card, {CARD_QUALITY, CARD_TYPE, PregeneratedCard} from "./components/Card";
+import cards from "./cards/cards.json"
 
 function App() {
     return (
@@ -11,18 +8,7 @@ function App() {
             <div className={"background-container"}>
                 <div className={"app-content"}>
                     <h1>BGO</h1>
-                    <Card title={"D10"}
-                          description={"Roll a 10 sided die for movement"}
-                          imagePath={"/images/tavern.png"}
-                          cardType={CARD_TYPE.ROLL}
-                          cardQuality={CARD_QUALITY.COMMON}
-                    />
-                    <Card title={"D20"}
-                          description={"Roll a 10 sided die for movement"}
-                          imagePath={"/images/tavern.png"}
-                          cardType={CARD_TYPE.SPELL}
-                          cardQuality={CARD_QUALITY.EPIC}
-                    />
+                    <PregeneratedCard card={cards.D8}/>
                 </div>
             </div>
         </div>

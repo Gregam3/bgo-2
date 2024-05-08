@@ -1,6 +1,7 @@
 import React from "react";
 import "./Card.css";
 
+
 export const CARD_TYPE = {
     ITEM: "item",
     SPELL: "spell",
@@ -31,18 +32,23 @@ export const CARD_QUALITY = {
     },
 }
 
+export function PregeneratedCard({card}) {
+    return <Card title={card.title} description={card.description} imagePath={card.imagePath} cardType={card.cardType}
+                 cardQuality={card.cardQuality}/>
+}
+
 function Card({title, description, imagePath, cardType, cardQuality}) {
     return (
         <div className="card">
             <div className={"card-header"}>
                 <img src={`/images/card-icons/${cardType}-icon.png`} alt={""} width={30} style={{
-                    backgroundColor: cardQuality.color,
+                    backgroundColor: CARD_QUALITY[cardQuality].color,
                 }}/>
                 <h2>
                     {title}
                 </h2>
             </div>
-            <img src={imagePath} alt={""}/>
+            <img src={imagePath} alt={""} className={"card-image"}/>
             <p>{description}</p>
         </div>
     );
