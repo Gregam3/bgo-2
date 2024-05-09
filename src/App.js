@@ -1,6 +1,6 @@
 import './App.css';
 import cards from "./cards/cards.json"
-import PlayerCards from "./components/PlayerHand";
+import PlayerCards from "./components/PlayerCards";
 
 function randomCard() {
     const cardKeys = Object.keys(cards);
@@ -16,6 +16,11 @@ function randomCards(numberOfCards) {
     return randomCards;
 }
 
+function randomHand() {
+    const randomCardNumber = Math.floor(Math.random() * 7) + 1;
+    return randomCards(randomCardNumber);
+}
+
 function App() {
     return (
         <div className="app-container">
@@ -23,7 +28,7 @@ function App() {
                 <div className={"app-content"}>
                     <h1>BGO</h1>
                     <PlayerCards playerHand={[
-                        ...randomCards(3),
+                        ...randomHand(),
                     ]}/>
                 </div>
             </div>

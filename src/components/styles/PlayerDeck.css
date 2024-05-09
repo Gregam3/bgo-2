@@ -1,0 +1,12 @@
+.deck-container {
+    background-image: url("/public/images/card-background-5.png");
+    background-size: cover;
+    height: 250px;
+    width: 240px;
+    margin-right: 5%;
+    padding: 30px;
+    font-family: 'Sedan SC', sans-serif;
+    font-size: 3.5em;
+    position: relative;
+    margin-top: 7%;
+}

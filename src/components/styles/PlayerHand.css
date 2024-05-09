@@ -1,7 +1,6 @@
 .hand-container {
-    position: absolute;
-    bottom: 0px;
     width: 100%;
+    margin-left: 25%;
 }
 
 .player-hand {
@@ -13,12 +12,13 @@
 }
 
 .selected {
-    margin-top: -50px;
+    margin-top: 0px;
+    z-index: 10;
     transition: margin-top 0.25s;
 }
 
 .deselected {
-    margin-top: 0;
+    margin-top: 50px;
     transition: margin-top 0.25s;
 }
 

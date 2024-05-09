@@ -1,19 +1,17 @@
-import React from 'react';
-import cards from "../cards/cards.json";
+import React from "react";
 import {PregeneratedCard} from "./Card";
 import './styles/PlayerHand.css';
-import HandUI from "./HandUI";
 
 // TODO possibly use window.innerWidth to determine how many cards to show before overlaying
 const MAX_CARDS_BEFORE_OVERLAY = 5;
 
-const PlayerHand = ({playerHand}) => {
+function PlayerHand({playerHand}) {
     const [selectedHandIndexes, setSelectedHandIndexes] = React.useState([]);
 
     // If player has over MAX_CARDS_BEFORE_OVERLAY, we want to start overlaying the cards
     function getCardMargin() {
         if (playerHand.length > MAX_CARDS_BEFORE_OVERLAY) {
-            return -(playerHand.length - MAX_CARDS_BEFORE_OVERLAY) * 25;
+            return -(playerHand.length - MAX_CARDS_BEFORE_OVERLAY) * 50;
         } else {
             return (MAX_CARDS_BEFORE_OVERLAY - playerHand.length) * 10;
         }
@@ -39,7 +37,6 @@ const PlayerHand = ({playerHand}) => {
                     </li>
                 ))}
             </ul>
-            <HandUI/>
         </div>
     );
 }
