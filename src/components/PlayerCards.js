@@ -19,6 +19,7 @@ const PlayerCards = ({playerHand, addEvent, playerId}) => {
                 selectedHandIndices={selectedHandIndices}
                 addEvent={addEvent}
                 playerId={playerId}
+                setSelectedHandIndices={setSelectedHandIndices}
             />
         </div>
         <PlayerDeck/>

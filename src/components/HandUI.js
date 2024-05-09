@@ -3,12 +3,19 @@ import "./styles/HandUI.css";
 import {GameEventTypes} from "../classes/GameEventTypes";
 import {GameEvent} from "../classes/GameEvent";
 
-function HandUI({playerHand, selectedHandIndices, addEvent, playerId}) {
+function HandUI({playerHand, selectedHandIndices, setSelectedHandIndices, addEvent, playerId}) {
+
+    function handlePlayCard() {
+        setSelectedHandIndices([]);
+        let playedCard = playerHand[selectedHandIndices[0]];
+        playedCard.played = true;
+        addEvent(new GameEvent(playerId, GameEventTypes.PLAY_CARD, playedCard, 1500))
+    }
 
     return (
         <div className={"hand-ui"}>
             <button className={"play-button"} disabled={selectedHandIndices.length !== 1}
-                    onClick={() => addEvent(new GameEvent(playerId, GameEventTypes.PLAY_CARD, playerHand[selectedHandIndices[0]]))}>Play
+                    onClick={handlePlayCard}>Play
             </button>
             <button className={"combine-button"} disabled={selectedHandIndices.length !== 2}
                     onClick={() => console.log("Combine")}>Combine

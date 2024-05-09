@@ -18,6 +18,10 @@
     animation: shake 0.15s;
 }
 
+.played {
+    animation: played 2.0s;
+}
+
 .card-header {
     display: flex;
     justify-content: center;
@@ -41,12 +45,13 @@
 }
 
 .card h2 {
-    margin: 0 5px;
+    margin: 0 0 5px -30px;
     font-size: 1.75em;
     color: #382a1c;
     text-shadow: 1px 1px 1px #000000;
     font-family: 'Sedan SC', sans-serif;
     font-weight: 800;
+    width: 90%;
 }
 
 .card p {
@@ -68,4 +73,10 @@
     50% { transform: rotate(-1deg); }
     75% { transform: rotate(1deg); }
     100% { transform: rotate(0deg); }
+}
+
+@keyframes played {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(0.00001); }
 }

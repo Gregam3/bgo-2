@@ -4,3 +4,11 @@
     height: 500px;
     margin: 0 5%;
 }
+
+.current-event-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}

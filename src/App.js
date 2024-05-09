@@ -4,10 +4,18 @@ import PlayerCards from "./components/PlayerCards";
 import EventPanel from "./components/EventPanel";
 import {useEffect, useState} from "react";
 
+function uuidv4() {
+    return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c =>
+        (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
+    );
+}
+
 function randomCard() {
     const cardKeys = Object.keys(cards);
     const randomKey = cardKeys[Math.floor(Math.random() * cardKeys.length)];
-    return cards[randomKey];
+    let card = {...cards[randomKey]};
+    card.id = uuidv4();
+    return card;
 }
 
 function randomCards(numberOfCards) {
@@ -32,15 +40,25 @@ function App() {
         setEventQueue([...eventQueue, event]);
     }
 
-    useEffect(() => {
-        console.log("Event Queue", eventQueue);
-    }, [eventQueue])
+    const removePlayerCard = (cardToDelete) => {
+        let newPlayerHand = playerHand.filter(card => card.id !== cardToDelete.id);
+        setPlayerHand(newPlayerHand);
+    }
+
+    const moveToNextEvent = () => {
+        if (eventQueue.length > 0) {
+            setEventQueue(eventQueue.slice(1));
+        } else {
+            setEventQueue([]);
+        }
+    }
 
     return (
         <div className="app-container">
             <div className={"background-container"}>
                 <div className={"app-content"}>
-                    <EventPanel currentEvent={eventQueue[0]}/>
+                    <EventPanel currentEvent={eventQueue[0]} removePlayerCard={removePlayerCard}
+                                moveToNextEvent={moveToNextEvent}/>
                     <PlayerCards
                         playerHand={[...playerHand]}
                         addEvent={handleAddEvent}

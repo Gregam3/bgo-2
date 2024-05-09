@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {PregeneratedCard} from "./Card";
+import Card, {PregeneratedCard} from "./Card";
 import './styles/PlayerHand.css';
 
 // TODO possibly use window.innerWidth to determine how many cards to show before overlaying
@@ -30,7 +30,7 @@ function PlayerHand({playerHand, selectedHandIndexes, setSelectedHandIndexes}) {
                     <li key={index} style={{marginLeft: getCardMargin()}}
                         className={selectedHandIndexes.includes(index) ? "selected" : "deselected"}
                         onClick={() => handleCardClick(index)}>
-                        <PregeneratedCard card={card}/>
+                        <Card card={card}/>
                     </li>
                 ))}
             </ul>

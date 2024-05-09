@@ -32,24 +32,21 @@ export const CARD_QUALITY = {
     },
 }
 
-export function PregeneratedCard({card}) {
-    return <Card title={card.title} description={card.description} imagePath={card.imagePath} cardType={card.cardType}
-                 cardQuality={card.cardQuality}/>
-}
+function Card({card}) {
+    console.log(card.played)
 
-function Card({title, description, imagePath, cardType, cardQuality}) {
     return (
-        <div className="card">
+        <div className={`card ${card.played ? 'played' : ''}`}>
             <div className={"card-header"}>
-                <img src={`/images/card-icons/${cardType}-icon.png`} alt={""} width={30} style={{
-                    backgroundColor: CARD_QUALITY[cardQuality].color,
+                <img src={`/images/card-icons/${card.cardType}-icon.png`} alt={""} width={30} style={{
+                    backgroundColor: CARD_QUALITY[card.cardQuality].color,
                 }}/>
                 <h2>
-                    {title}
+                    {card.title}
                 </h2>
             </div>
-            <img src={imagePath} alt={""} className={"card-image"}/>
-            <p>{description}</p>
+            <img src={card.imagePath} alt={""} className={"card-image"}/>
+            <p>{card.description}</p>
         </div>
     );
 }
