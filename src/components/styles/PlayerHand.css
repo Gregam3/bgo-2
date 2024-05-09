@@ -1,4 +1,3 @@
-
 .hand-container {
     position: absolute;
     bottom: 0px;
@@ -15,12 +14,12 @@
 
 .selected {
     margin-top: -50px;
-    transition: margin-top 0.5s;
+    transition: margin-top 0.25s;
 }
 
 .deselected {
     margin-top: 0;
-    transition: margin-top 0.5s;
+    transition: margin-top 0.25s;
 }
 
 @keyframes card-lift {

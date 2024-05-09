@@ -1,7 +1,7 @@
 import React from 'react';
 import cards from "../cards/cards.json";
 import {PregeneratedCard} from "./Card";
-import './PlayerHand.css';
+import './styles/PlayerHand.css';
 import HandUI from "./HandUI";
 
 // TODO possibly use window.innerWidth to determine how many cards to show before overlaying

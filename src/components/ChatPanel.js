@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import "./ChatPanel.css";
+import "./styles/ChatPanel.css";
 
 function ChatPanel() {
   const [isHidden, setIsHidden] = useState(false);

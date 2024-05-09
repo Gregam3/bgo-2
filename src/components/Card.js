@@ -1,5 +1,5 @@
 import React from "react";
-import "./Card.css";
+import "./styles/Card.css";
 
 
 export const CARD_TYPE = {

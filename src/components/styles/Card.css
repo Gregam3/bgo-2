@@ -14,6 +14,11 @@
     margin: 10px;
 }
 
+.card:hover {
+    animation: shake 0.15s;
+}
+
+
 .card-header {
     display: flex;
     justify-content: center;
@@ -56,4 +61,12 @@
     border-radius: 5px;
     height: 35%;
     font-family: 'Sedan SC', sans-serif;
+}
+
+@keyframes shake {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(1deg); }
+    50% { transform: rotate(-1deg); }
+    75% { transform: rotate(1deg); }
+    100% { transform: rotate(0deg); }
 }
