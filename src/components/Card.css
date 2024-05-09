@@ -1,17 +1,17 @@
 .card {
     background: url("/public/images/card-background-4.png") -5px -5px;
-    background-size: 105%;
-    width: 300px;
-    height: 390px;
+    background-size: cover;
+    width: 200px;
+    height: 300px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 5);
     border-radius: 40px;
-    margin: auto;
     padding: 20px;
     position: relative;
     overflow: hidden;
 /*    cursor drag*/
-    cursor: grab;
+    cursor: pointer;
     user-select: none;
+    margin: 10px;
 }
 
 .card-header {
@@ -19,18 +19,18 @@
     justify-content: center;
     align-items: center;
     margin: 0;
-    height: 30px;
+    height: 15%;
 }
 
 .card .card-header img {
     box-shadow: none;
+    border-radius: 50%;
 }
 
 .card .card-image {
     max-width: 100%;
-    height: 175px;
+    height: 40%;
     width: 100%;
-    margin: 20px 0;
     border-radius: 5px;
     box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
     user-select: none;
@@ -54,6 +54,6 @@
     line-height: 0.9em;
     color: #4a3f35;
     border-radius: 5px;
-    height: 110px;
+    height: 35%;
     font-family: 'Sedan SC', sans-serif;
 }

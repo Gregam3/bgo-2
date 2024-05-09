@@ -2,7 +2,7 @@
   "D100": {
     "title": "D100",
     "description": "Roll a 100 sided die for movement",
-    "imagePath": "/images/dice-icons/tavern.png",
+    "imagePath": "/images/dice-icons/d100-icon.png",
     "cardType": "roll",
     "cardQuality": "LEGENDARY"
   },

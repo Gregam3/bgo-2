@@ -7,9 +7,9 @@
 
 .background-container {
     background-image: url("/public/images/new-background.png");
-    background-size: 98%;
+    background-size: 110%;
     /* offset background by 100px*/
-    background-position: 50px;
+    background-position: -100px;
     height: 97vh;
     width: 100vw;
     padding: 20px;

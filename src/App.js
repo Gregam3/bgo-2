@@ -1,6 +1,20 @@
 import './App.css';
-import Card, {CARD_QUALITY, CARD_TYPE, PregeneratedCard} from "./components/Card";
 import cards from "./cards/cards.json"
+import PlayerHand from "./components/PlayerHand";
+
+function randomCard() {
+    const cardKeys = Object.keys(cards);
+    const randomKey = cardKeys[Math.floor(Math.random() * cardKeys.length)];
+    return cards[randomKey];
+}
+
+function randomCards(numberOfCards) {
+    const randomCards = [];
+    for (let i = 0; i < numberOfCards; i++) {
+        randomCards.push(randomCard());
+    }
+    return randomCards;
+}
 
 function App() {
     return (
@@ -8,7 +22,9 @@ function App() {
             <div className={"background-container"}>
                 <div className={"app-content"}>
                     <h1>BGO</h1>
-                    <PregeneratedCard card={cards.D8}/>
+                    <PlayerHand playerHand={[
+                        ...randomCards(3),
+                    ]}/>
                 </div>
             </div>
         </div>

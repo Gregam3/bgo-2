@@ -1,0 +1,33 @@
+
+.hand-container {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+}
+
+.player-hand {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    list-style-type: none;
+    padding: 0;
+}
+
+.selected {
+    margin-top: -50px;
+    transition: margin-top 0.5s;
+}
+
+.deselected {
+    margin-top: 0;
+    transition: margin-top 0.5s;
+}
+
+@keyframes card-lift {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-50px);
+    }
+}
