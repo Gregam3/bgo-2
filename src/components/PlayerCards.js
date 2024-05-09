@@ -4,8 +4,7 @@ import PlayerHand from "./PlayerHand";
 import './styles/PlayerCards.css'
 import PlayerDeck from "./PlayerDeck";
 
-
-const PlayerCards = ({playerHand, addEvent, playerId}) => {
+const PlayerCards = ({playerHand, playerDeck, addEvent, playerId}) => {
     const [selectedHandIndices, setSelectedHandIndices] = useState([]);
 
     return <div className={"player-cards-container"}>
@@ -22,7 +21,7 @@ const PlayerCards = ({playerHand, addEvent, playerId}) => {
                 setSelectedHandIndices={setSelectedHandIndices}
             />
         </div>
-        <PlayerDeck/>
+        <PlayerDeck playerDeck={playerDeck}/>
     </div>
 }
 

@@ -17,9 +17,9 @@ function HandUI({playerHand, selectedHandIndices, setSelectedHandIndices, addEve
             <button className={"play-button"} disabled={selectedHandIndices.length !== 1}
                     onClick={handlePlayCard}>Play
             </button>
-            <button className={"combine-button"} disabled={selectedHandIndices.length !== 2}
-                    onClick={() => console.log("Combine")}>Combine
-            </button>
+            {/*<button className={"combine-button"} disabled={selectedHandIndices.length !== 2}*/}
+            {/*        onClick={() => console.log("Combine")}>Combine*/}
+            {/*</button>*/}
         </div>
     );
 }

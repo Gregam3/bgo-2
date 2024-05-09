@@ -8,7 +8,6 @@
     padding: 20px;
     position: relative;
     overflow: hidden;
-    /*    cursor drag*/
     cursor: pointer;
     user-select: none;
     margin: 10px;

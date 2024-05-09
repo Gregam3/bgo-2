@@ -1,8 +1,8 @@
 import './App.css';
-import cards from "./cards/cards.json"
+import cards from "./data/cards.json"
 import PlayerCards from "./components/PlayerCards";
 import EventPanel from "./components/EventPanel";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 
 function uuidv4() {
     return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c =>
@@ -34,7 +34,8 @@ function randomHand() {
 function App() {
     const [eventQueue, setEventQueue] = useState([]);
     const [playerId, setPlayerId] = useState(0);
-    const [playerHand, setPlayerHand] = useState(randomHand());
+    const [playerHand, setPlayerHand] = useState([]);
+    const [playerDeck, setPlayerDeck] = useState([]);
 
     const handleAddEvent = (event) => {
         setEventQueue([...eventQueue, event]);
