@@ -16,7 +16,6 @@ function PlayerHand({playerHand, selectedHandIndexes, setSelectedHandIndexes}) {
     }
 
     const handleCardClick = (index) => {
-        console.log("Card clicked", index);
         if (selectedHandIndexes.includes(index)) {
             setSelectedHandIndexes(selectedHandIndexes.filter((i) => i !== index));
         } else {
