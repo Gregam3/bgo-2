@@ -8,7 +8,7 @@
     padding: 20px;
     position: relative;
     overflow: hidden;
-/*    cursor drag*/
+    /*    cursor drag*/
     cursor: pointer;
     user-select: none;
     margin: 10px;
@@ -19,7 +19,12 @@
 }
 
 .played {
-    animation: played 2.0s;
+    animation: played 1.6s;
+}
+
+.card.played:hover {
+    animation: played 1.6s;
+    cursor: default;
 }
 
 .card-header {
@@ -68,15 +73,31 @@
 }
 
 @keyframes shake {
-    0% { transform: rotate(0deg); }
-    25% { transform: rotate(1deg); }
-    50% { transform: rotate(-1deg); }
-    75% { transform: rotate(1deg); }
-    100% { transform: rotate(0deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(1deg);
+    }
+    50% {
+        transform: rotate(-1deg);
+    }
+    75% {
+        transform: rotate(1deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
 }
 
 @keyframes played {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.2); }
-    100% { transform: scale(0.00001); }
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(0.00001);
+    }
 }
