@@ -1,49 +1,11 @@
 import './App.css';
-import cards from "./data/cards.json"
 import PlayerCards from "./components/PlayerCards";
 import EventPanel from "./components/EventPanel";
 import {useState} from "react";
 import {GameEventTypes} from "./classes/GameEventTypes";
-import {GameEvent, INFINITE_EVENT_DURATION} from "./classes/GameEvent";
-
-function uuidv4() {
-    return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c =>
-        (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
-    );
-}
-
-function randomCard() {
-    const cardKeys = Object.keys(cards);
-    const randomKey = cardKeys[Math.floor(Math.random() * cardKeys.length)];
-    let card = {...cards[randomKey]};
-    card.id = uuidv4();
-    return card;
-}
-
-function randomCards(numberOfCards) {
-    const randomCards = [];
-    for (let i = 0; i < numberOfCards; i++) {
-        randomCards.push(randomCard());
-    }
-    return randomCards;
-}
-
-function randomHand() {
-    const randomCardNumber = Math.floor(Math.random() * 7) + 1;
-    return randomCards(randomCardNumber);
-}
-
-const TEST_PACK = {
-    name: "Dice Pack",
-    possibleCards: [
-        cards.D4,
-        cards.D6,
-        cards.D8,
-        cards.D10,
-    ],
-    cardCountToChoose: 1,
-    cardCountShown: 3
-}
+import {GameEvent} from "./classes/GameEvent";
+import GameStateUpdater from "./components/utility/GameStateUpdater";
+import {TEST_PACK} from "./components/utility/DevUtils";
 
 function App() {
     const [eventQueue, setEventQueue] = useState([new GameEvent(0, GameEventTypes.OPEN_PACK, TEST_PACK)]);
@@ -52,6 +14,10 @@ function App() {
         playerDeck: [],
         playerHand: [],
     });
+
+    const endCurrentEvent = () => {
+        setEventQueue(eventQueue.slice(1));
+    }
 
     const updateGameStateProperty = (key, value) => {
         setGameState({...gameState, [key]: value});
@@ -62,8 +28,7 @@ function App() {
     }
 
     const removePlayerCard = (cardToDelete) => {
-        let newPlayerHand = gameState.playerHand.filter(card => card.id !== cardToDelete.id);
-        updateGameStateProperty("playerHand", newPlayerHand);
+        updateGameStateProperty("playerHand", GameStateUpdater.removePlayerCardFromHand(gameState, cardToDelete));
     }
 
     const moveToNextEvent = () => {
@@ -78,10 +43,15 @@ function App() {
         <div className="app-container">
             <div className={"background-container"}>
                 <div className={"app-content"}>
-                    <EventPanel currentEvent={eventQueue[0]} removePlayerCard={removePlayerCard}
-                                moveToNextEvent={moveToNextEvent} gameState={gameState}/>
+                    <EventPanel currentEvent={eventQueue[0]}
+                                removePlayerCard={removePlayerCard}
+                                moveToNextEvent={moveToNextEvent}
+                                gameState={gameState} setGameState={setGameState}
+                                endCurrentEvent={endCurrentEvent}
+                    />
                     <PlayerCards
                         playerHand={[...gameState.playerHand]}
+                        playerDeck={[...gameState.playerDeck]}
                         addEvent={handleAddEvent}
                         playerId={playerId}
                     />

@@ -11,6 +11,8 @@ class GameEventComponent extends Component {
     }
     onEventEnd() {
         console.log("Event Ended");
+        console.log(this.props)
+        this.props.moveToNextEvent();
     }
 
     static defaultProps = {

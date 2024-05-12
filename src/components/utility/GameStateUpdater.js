@@ -10,5 +10,10 @@ export default class GameStateUpdater {
         newPlayerDeck.push(newCard);
         return {...gameState, playerDeck: newPlayerDeck};
     }
+
+    static removePlayerCardFromHand = (gameState, cardToDelete) => {
+        let newPlayerHand = gameState.playerHand.filter(card => card.id !== cardToDelete.id);
+        return {...gameState, playerHand: newPlayerHand};
+    }
 }
 

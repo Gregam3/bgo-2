@@ -2,7 +2,7 @@ import React from "react";
 import Card from "../Card";
 import "../styles/OpenPackEvent.css";
 import GameEventComponent from "./GameEventComponent";
-import GameStateUpdater from "./GameStateUpdater";
+import GameStateUpdater from "../utility/GameStateUpdater";
 
 class OpenPackEvent extends GameEventComponent {
     constructor(props) {

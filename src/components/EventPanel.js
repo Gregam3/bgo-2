@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import "./styles/EventPanel.css";
 import {INFINITE_EVENT_DURATION} from "../classes/GameEvent";
 
-function EventPanel({currentEvent, removePlayerCard, moveToNextEvent, gameState}) {
+function EventPanel({currentEvent, removePlayerCard, moveToNextEvent, gameState, setGameState}) {
     useEffect(() => {
         console.log("Current Event", currentEvent);
         if (currentEvent && currentEvent.eventType.name === "PLAY_CARD") {
@@ -22,7 +22,7 @@ function EventPanel({currentEvent, removePlayerCard, moveToNextEvent, gameState}
     return (
         <div className={"event-panel-container"}>
             {currentEvent && <div className={"current-event-container"}>
-                {currentEvent.eventType.render(currentEvent.eventData, gameState)}
+                {currentEvent.eventType.render(currentEvent.eventData, gameState, setGameState, moveToNextEvent)}
             </div>}
         </div>
     );

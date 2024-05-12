@@ -1,11 +1,11 @@
 import React from "react";
 import './styles/PlayerDeck.css';
 
-function PlayerDeck({deck}) {
+function PlayerDeck({playerDeck}) {
     return (
         <div className={"deck-container"}>
             <p>Deck</p>
-            <p>{deck?.length || 0} cards</p>
+            <p>{playerDeck?.length || 0} cards</p>
         </div>
     );
 }
