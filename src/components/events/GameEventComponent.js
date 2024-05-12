@@ -15,6 +15,10 @@ class GameEventComponent extends Component {
         this.props.moveToNextEvent();
     }
 
+    componentDidMount() {
+        this.onEventStart();
+    }
+
     static defaultProps = {
         eventData: null,
     };

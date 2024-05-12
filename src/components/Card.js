@@ -33,8 +33,6 @@ export const CARD_QUALITY = {
 }
 
 function Card({card}) {
-    console.log(card.played)
-
     return (
         <div className={`card ${card.played ? 'played' : ''}`}>
             <div className={"card-header"}>

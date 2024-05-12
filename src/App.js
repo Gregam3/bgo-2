@@ -8,7 +8,7 @@ import GameStateUpdater from "./components/utility/GameStateUpdater";
 import {TEST_PACK} from "./components/utility/DevUtils";
 
 function App() {
-    const [eventQueue, setEventQueue] = useState([new GameEvent(0, GameEventTypes.DRAFT_DECK, TEST_PACK)]);
+    const [eventQueue, setEventQueue] = useState([GameEvent.TEST_DRAFT, GameEvent.TEST_DRAW]);
     const [playerId, setPlayerId] = useState(0);
     const [gameState, setGameState] = useState({
         playerDeck: [],

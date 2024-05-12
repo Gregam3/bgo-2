@@ -22,10 +22,11 @@ export default class GameStateUpdater {
         return newGameState;
     }
 
-    static addSelectedCardsToDeck(gameState, selectedCards) {
+    static drawCardToHand(gameState, selectedCard) {
         const newGameState = {...gameState};
-        newGameState.playerDeck = [...newGameState.playerDeck, ...selectedCards];
+        newGameState.playerHand = [...newGameState.playerHand, selectedCard];
         return newGameState;
     }
+
 }
 
