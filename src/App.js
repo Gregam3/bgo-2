@@ -3,6 +3,8 @@ import cards from "./data/cards.json"
 import PlayerCards from "./components/PlayerCards";
 import EventPanel from "./components/EventPanel";
 import {useState} from "react";
+import {GameEventTypes} from "./classes/GameEventTypes";
+import {GameEvent, INFINITE_EVENT_DURATION} from "./classes/GameEvent";
 
 function uuidv4() {
     return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c =>
@@ -31,19 +33,37 @@ function randomHand() {
     return randomCards(randomCardNumber);
 }
 
+const TEST_PACK = {
+    name: "Dice Pack",
+    possibleCards: [
+        cards.D4,
+        cards.D6,
+        cards.D8,
+        cards.D10,
+    ],
+    cardCountToChoose: 1,
+    cardCountShown: 3
+}
+
 function App() {
-    const [eventQueue, setEventQueue] = useState([]);
+    const [eventQueue, setEventQueue] = useState([new GameEvent(0, GameEventTypes.OPEN_PACK, TEST_PACK)]);
     const [playerId, setPlayerId] = useState(0);
-    const [playerHand, setPlayerHand] = useState([]);
-    const [playerDeck, setPlayerDeck] = useState([]);
+    const [gameState, setGameState] = useState({
+        playerDeck: [],
+        playerHand: [],
+    });
+
+    const updateGameStateProperty = (key, value) => {
+        setGameState({...gameState, [key]: value});
+    }
 
     const handleAddEvent = (event) => {
         setEventQueue([...eventQueue, event]);
     }
 
     const removePlayerCard = (cardToDelete) => {
-        let newPlayerHand = playerHand.filter(card => card.id !== cardToDelete.id);
-        setPlayerHand(newPlayerHand);
+        let newPlayerHand = gameState.playerHand.filter(card => card.id !== cardToDelete.id);
+        updateGameStateProperty("playerHand", newPlayerHand);
     }
 
     const moveToNextEvent = () => {
@@ -59,9 +79,9 @@ function App() {
             <div className={"background-container"}>
                 <div className={"app-content"}>
                     <EventPanel currentEvent={eventQueue[0]} removePlayerCard={removePlayerCard}
-                                moveToNextEvent={moveToNextEvent}/>
+                                moveToNextEvent={moveToNextEvent} gameState={gameState}/>
                     <PlayerCards
-                        playerHand={[...playerHand]}
+                        playerHand={[...gameState.playerHand]}
                         addEvent={handleAddEvent}
                         playerId={playerId}
                     />

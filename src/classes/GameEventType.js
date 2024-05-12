@@ -1,4 +1,5 @@
 export class GameEventType {
+    // Render takes 2 params, the eventData and the gameState
     constructor(name, description, render) {
         this.name = name;
         this.description = description;
