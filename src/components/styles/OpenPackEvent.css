@@ -1,7 +1,68 @@
-.open-pack-container {
+.open-pack-container h4 {
+    color: #fff;
+    font-size: 1.5rem;
+}
+
+.pack-card-container {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     height: 100%;
+    position: relative;
+}
+
+.pack-card-container.OPEN_PACK::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 150px;
+    background-image: url("/public/images/card-background-5.png");
+    background-size: cover;
+    animation: openPack 3s forwards;
+}
+
+@keyframes openPack {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1.5);
+        opacity: 0;
+    }
+}
+
+.pack-card-container.CHOOSE_CARD > div {
+    animation: showCard 0.5s forwards;
+    opacity: 0;
+}
+
+@keyframes showCard {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.pack-card-container.ADD_CARD_TO_DECK .selected-card {
+    animation: addCardToDeck 0.5s forwards;
+}
+
+@keyframes addCardToDeck {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
 }

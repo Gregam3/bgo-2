@@ -15,5 +15,17 @@ export default class GameStateUpdater {
         let newPlayerHand = gameState.playerHand.filter(card => card.id !== cardToDelete.id);
         return {...gameState, playerHand: newPlayerHand};
     }
+
+    static addSelectedCardToDeck(gameState, selectedCard) {
+        const newGameState = {...gameState};
+        newGameState.playerDeck = [...newGameState.playerDeck, selectedCard];
+        return newGameState;
+    }
+
+    static addSelectedCardsToDeck(gameState, selectedCards) {
+        const newGameState = {...gameState};
+        newGameState.playerDeck = [...newGameState.playerDeck, ...selectedCards];
+        return newGameState;
+    }
 }
 
