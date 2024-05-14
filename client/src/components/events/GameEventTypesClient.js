@@ -1,10 +1,10 @@
-import {GameEventType} from "./GameEventType";
-import Card from "../components/Card";
-import OpenPackEvent from "../components/events/OpenPackEvent";
-import DraftDeckEvent from "../components/events/DraftDeckEvent";
-import DrawCardEvent from "../components/events/DrawCardEvent";
+import {GameEventType} from "../../common/classes/GameEventType";
+import Card from "../Card";
+import OpenPackEvent from "./OpenPackEvent";
+import DraftDeckEvent from "./DraftDeckEvent";
+import DrawCardEvent from "./DrawCardEvent";
 
-export const GameEventTypes = {
+export const GameEventTypesClient = {
     DRAW_CARD: new GameEventType("DRAW_CARD", "Draw a card", (eventData, gameState, setGameState, moveToNextEvent) =>
         <DrawCardEvent gameState={gameState} setGameState={setGameState} moveToNextEvent={moveToNextEvent}/>
     ),

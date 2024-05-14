@@ -1,7 +1,7 @@
 import React from "react";
 import "./styles/HandUI.css";
-import {GameEventTypes} from "../classes/GameEventTypes";
-import {GameEvent} from "../classes/GameEvent";
+import {GameEventTypesClient} from "./events/GameEventTypesClient";
+import {GameEvent} from "../common/classes/GameEvent";
 
 function HandUI({playerHand, selectedHandIndices, setSelectedHandIndices, addEvent, playerId}) {
 
@@ -9,7 +9,7 @@ function HandUI({playerHand, selectedHandIndices, setSelectedHandIndices, addEve
         setSelectedHandIndices([]);
         let playedCard = playerHand[selectedHandIndices[0]];
         playedCard.played = true;
-        addEvent(new GameEvent(playerId, GameEventTypes.PLAY_CARD, playedCard, 1500))
+        addEvent(new GameEvent(playerId, GameEventTypesClient.PLAY_CARD, playedCard, 1500))
     }
 
     return (

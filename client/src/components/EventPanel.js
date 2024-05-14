@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import "./styles/EventPanel.css";
-import {INFINITE_EVENT_DURATION} from "../classes/GameEvent";
+import {INFINITE_EVENT_DURATION} from "../common/classes/GameEvent";
 
 function EventPanel({currentEvent, removePlayerCard, moveToNextEvent, gameState, setGameState}) {
     useEffect(() => {
