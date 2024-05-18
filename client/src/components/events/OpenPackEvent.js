@@ -1,26 +1,22 @@
-import React from "react";
-import OpenPack from "./OpenPack";
-import "../styles/OpenPackEvent.css";
-import GameEventComponent from "./GameEventComponent";
-import GameStateUpdater from "../utility/GameStateUpdater";
+import React from 'react';
+import OpenPack from './OpenPack';
+import '../styles/OpenPackEvent.css';
+import withGameEvent from './framework/withGameEvent';
+import GameStateUpdater from '../utility/GameStateUpdater';
 
-class OpenPackEvent extends GameEventComponent {
-    handlePackOpened = (selectedCard) => {
-        const {gameState} = this.props;
-        this.props.setGameState(GameStateUpdater.addPlayerCardToDeck(gameState, selectedCard));
-        // this.endEvent();
+const OpenPackEvent = ({ gameState, setGameState, packData, endEvent }) => {
+    const handlePackOpened = (selectedCard) => {
+        setGameState(GameStateUpdater.addPlayerCardToDeck(gameState, selectedCard));
+        endEvent();
     };
 
-    render() {
-        const {packData} = this.props;
-        return (
-            <div className="open-pack-container">
-                <h1>Open Pack</h1>
-                <OpenPack packData={packData} onPackOpened={this.handlePackOpened}/>
-                <h4>Click a card to add it to your deck</h4>
-            </div>
-        );
-    }
-}
+    return (
+        <div className="open-pack-container">
+            <h1>Open Pack</h1>
+            <OpenPack packData={packData} onPackOpened={handlePackOpened} />
+            <h4>Click a card to add it to your deck</h4>
+        </div>
+    );
+};
 
-export default OpenPackEvent;
+export default withGameEvent(OpenPackEvent);

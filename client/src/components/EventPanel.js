@@ -1,17 +1,22 @@
 import React, {useEffect} from "react";
 import "./styles/EventPanel.css";
 import {INFINITE_EVENT_DURATION} from "../common/classes/GameEvent";
+import {GameEventTypesClient} from "./events/framework/GameEventTypesClient";
+
+function getClientGameEventType(eventType) {
+    console.log("Event Type", eventType);
+    return GameEventTypesClient[eventType];
+}
 
 function EventPanel({currentEvent, removePlayerCard, moveToNextEvent, gameState, setGameState}) {
     useEffect(() => {
-        console.log("Current Event", currentEvent);
-        if (currentEvent && currentEvent.eventType.name === "PLAY_CARD") {
+        if (currentEvent && currentEvent.name === "PLAY_CARD") {
             removePlayerCard(currentEvent.eventData);
         }
     }, [currentEvent]);
 
     useEffect(() => {
-        if (currentEvent === undefined) return;
+        if (!currentEvent) return;
         if (currentEvent.eventDurationMs === INFINITE_EVENT_DURATION) return;
 
         setTimeout(() => {
@@ -20,10 +25,14 @@ function EventPanel({currentEvent, removePlayerCard, moveToNextEvent, gameState,
         }, currentEvent.eventDurationMs);
     }, [currentEvent]);
 
+    if (!currentEvent) return null;
+
+    console.log("Current Event", currentEvent);
+
     return (
         <div className={"event-panel-container"}>
             {currentEvent && <div className={"current-event-container"}>
-                {currentEvent.eventType.render(currentEvent.eventData, gameState, setGameState, moveToNextEvent)}
+                {getClientGameEventType(currentEvent.name).render(currentEvent.eventData, gameState, setGameState, moveToNextEvent)}
             </div>}
         </div>
     );

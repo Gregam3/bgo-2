@@ -1,6 +1,6 @@
 import React from "react";
 import "./styles/HandUI.css";
-import {GameEventTypesClient} from "./events/GameEventTypesClient";
+import {GameEventTypesClient} from "./events/framework/GameEventTypesClient";
 import {GameEvent} from "../common/classes/GameEvent";
 
 function HandUI({playerHand, selectedHandIndices, setSelectedHandIndices, addEvent, playerId}) {

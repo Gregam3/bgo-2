@@ -4,7 +4,7 @@ let GameEventTypes;
 if (isNode) {
     GameEventTypes = require('./GameEventTypesServer').GameEventTypesServer;
 } else {
-    GameEventTypes = require('../../components/events/GameEventTypesClient').GameEventTypesClient;
+    GameEventTypes = require('../../components/events/framework/GameEventTypesClient').GameEventTypesClient;
 }
 
 const INFINITE_EVENT_DURATION = -1;

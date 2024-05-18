@@ -7,6 +7,7 @@ import PlayerDeck from "./PlayerDeck";
 const PlayerCards = ({playerHand, playerDeck, addEvent, playerId}) => {
     const [selectedHandIndices, setSelectedHandIndices] = useState([]);
 
+
     return <div className={"player-cards-container"}>
         <div className={"hand-action-container"}>
             <PlayerHand playerHand={playerHand}

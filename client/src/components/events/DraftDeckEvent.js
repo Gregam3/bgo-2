@@ -1,46 +1,38 @@
-import React from "react";
-import OpenPack from "./OpenPack";
-import GameStateUpdater from "../utility/GameStateUpdater";
-import GameEventComponent from "./GameEventComponent";
+import React, { useState } from 'react';
+import OpenPack from './OpenPack';
+import GameStateUpdater from '../utility/GameStateUpdater';
+import withGameEvent from './framework/withGameEvent';
 
-class DraftDeckEvent extends GameEventComponent {
-    constructor(props) {
-        super(props);
-        this.state = {
-            currentPackIndex: 0,
-            selectedCard: [],
-        };
-    }
+const DraftDeckEvent = ({ numberOfPacksToOpen, gameState, setGameState, draftData, endEvent }) => {
+    const [currentPackIndex, setCurrentPackIndex] = useState(0);
+    const [selectedCard, setSelectedCard] = useState([]);
 
-    handlePackOpened = (selectedCard) => {
-        const {currentPackIndex} = this.state;
-        const {numberOfPacksToOpen, gameState} = this.props;
+    const onEventStart = () => {
+        // Custom start event logic for DraftDeckEvent
+        console.log('Draft Deck Event Started');
+    };
 
+    const handlePackOpened = (selectedCard) => {
         if (currentPackIndex + 1 < numberOfPacksToOpen) {
-            this.setState({currentPackIndex: currentPackIndex + 1, selectedCard});
-            // Add selected cards to the player's deck in the game state
-            this.props.setGameState(GameStateUpdater.addSelectedCardToDeck(gameState, selectedCard));
+            setCurrentPackIndex(currentPackIndex + 1);
+            setSelectedCard(selectedCard);
+            setGameState(GameStateUpdater.addSelectedCardToDeck(gameState, selectedCard));
         } else {
-            console.log("Draft Deck Event Ended");
-            this.onEventEnd();
+            console.log('Draft Deck Event Ended');
+            endEvent();
         }
     };
 
-    render() {
-        const {currentPackIndex} = this.state;
-        const {draftData} = this.props;
+    return (
+        <div className="draft-deck-container">
+            <h1>Draft Deck</h1>
+            <OpenPack
+                key={currentPackIndex}
+                packData={draftData}
+                onPackOpened={handlePackOpened}
+            />
+        </div>
+    );
+};
 
-        return (
-            <div className="draft-deck-container">
-                <h1>Draft Deck</h1>
-                <OpenPack
-                    key={currentPackIndex}
-                    packData={draftData}
-                    onPackOpened={this.handlePackOpened}
-                />
-            </div>
-        );
-    }
-}
-
-export default DraftDeckEvent;
+export default withGameEvent(DraftDeckEvent, { onEventStart: () => { console.log('Draft Deck Event Started'); } });
