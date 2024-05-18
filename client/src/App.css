@@ -10,10 +10,10 @@
 }
 
 .background-container {
-    background-image: url("/public/images/new-background.png");
-    background-size: 110%;
+    background-image: url("/public/images/background-test-2.webp");
+    background-size: 100%;
     /* offset background by 100px*/
-    background-position: -100px;
+    background-position: 0px;
     height: 97vh;
     width: 100vw;
     padding: 20px;

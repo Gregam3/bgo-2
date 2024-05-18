@@ -65,10 +65,17 @@ class GameEventLoop {
     }
 
     finishEvent(playerId, gameState) {
-        gameState.players[playerId].currentTurnFinished = true;
+        const currentPlayer = this.findPlayer(playerId, gameState);
+        currentPlayer.currentTurnFinished = true;
+    }
+
+    findPlayer(playerId, gameState) {
+        return gameState.players.find(player => player.id === parseInt(playerId));
     }
 
     isEventFinished(gameState) {
+        if (gameState && gameState.players) return false;
+        console.log("Checking if event is finished", gameState.players.every(player => player.currentTurnFinished));
         return gameState.players.every(player => player.currentTurnFinished);
     }
 }

@@ -4,7 +4,7 @@ import './styles/PlayerDeck.css';
 function PlayerDeck({playerDeck}) {
     return (
         <div className={"deck-container"}>
-            <p>Deck</p>
+            {/*<p>Deck</p>*/}
             <p>{playerDeck?.length || 0} cards</p>
         </div>
     );

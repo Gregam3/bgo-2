@@ -45,11 +45,13 @@ app.post('/add-player', (req, res) => {
 });
 
 app.post('/finish-event/:playerId', (req, res) => {
+    console.log("Finishing event for player", req.params);
     const {playerId} = req.params;
     gameState.gameEventLoop.finishEvent(playerId, gameState);
 
-    if (gameState.gameEventLoop.isEventFinished()) {
-        const nextEvent = gameState.gameEventLoop.getNextEvent();
+    if (gameState.gameEventLoop.isEventFinished(gameState)) {
+        console.log("Event finished, sending next event");
+        const nextEvent = gameState.gameEventLoop.getNextEvent(gameState);
         wss.clients.forEach(client => {
             if (client.readyState === WebSocket.OPEN) {
                 client.send(JSON.stringify(nextEvent));

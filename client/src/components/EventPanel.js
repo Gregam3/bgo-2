@@ -1,12 +1,7 @@
 import React, {useEffect} from "react";
 import "./styles/EventPanel.css";
 import {INFINITE_EVENT_DURATION} from "../common/classes/GameEvent";
-import {GameEventTypesClient} from "./events/framework/GameEventTypesClient";
-
-function getClientGameEventType(eventType) {
-    console.log("Event Type", eventType);
-    return GameEventTypesClient[eventType];
-}
+import {GameEventTypesClient, getClientGameEventType} from "./events/framework/GameEventTypesClient";
 
 function EventPanel({currentEvent, removePlayerCard, moveToNextEvent, gameState, setGameState}) {
     useEffect(() => {
