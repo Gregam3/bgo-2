@@ -36,6 +36,8 @@ class OpenPack extends React.Component {
         const {packData} = this.props;
         const {packPhase, selectedCard} = this.state;
 
+        console.log("Pack Data", packData);
+
         return (
             <div className={`pack-card-container ${packPhase}`}>
                 {packPhase === PackPhase.CHOOSE_CARD && (

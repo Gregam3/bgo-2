@@ -4,9 +4,10 @@ import EventPanel from "./components/EventPanel";
 import { useState, useEffect } from "react";
 import { GameEvent } from './common/classes/GameEvent';
 import GameStateUpdater from "./components/utility/GameStateUpdater";
+import {GameEventTypesClient} from "./components/events/GameEventTypesClient";
 
 function App() {
-    const [eventQueue, setEventQueue] = useState([GameEvent.TEST_DRAFT, GameEvent.TEST_DRAW]);
+    const [eventQueue, setEventQueue] = useState([]);
     const [playerId, setPlayerId] = useState(0);
     const [gameState, setGameState] = useState({
         playerDeck: [],
@@ -14,10 +15,12 @@ function App() {
     });
 
     useEffect(() => {
-        const ws = new WebSocket('ws://localhost:3000');
+        const ws = new WebSocket('ws://localhost:3001');
 
         ws.onmessage = (event) => {
             const receivedEvent = JSON.parse(event.data);
+            console.log("Received event: ", receivedEvent);
+            receivedEvent.eventType = GameEventTypesClient[receivedEvent.eventType];
             setEventQueue(prevQueue => [...prevQueue, receivedEvent]);
         };
 

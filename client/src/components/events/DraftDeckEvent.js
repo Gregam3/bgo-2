@@ -21,6 +21,7 @@ class DraftDeckEvent extends GameEventComponent {
             // Add selected cards to the player's deck in the game state
             this.props.setGameState(GameStateUpdater.addSelectedCardToDeck(gameState, selectedCard));
         } else {
+            console.log("Draft Deck Event Ended");
             this.onEventEnd();
         }
     };

@@ -1,4 +1,4 @@
-import cards from "../../common/data/cards.json";
+import cards from "../client/src/common/data/cards.json";
 
 function uuidv4() {
     return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c =>
@@ -6,7 +6,7 @@ function uuidv4() {
     );
 }
 
-export function randomCard() {
+function randomCard() {
     const cardKeys = Object.keys(cards);
     const randomKey = cardKeys[Math.floor(Math.random() * cardKeys.length)];
     let card = {...cards[randomKey]};
@@ -14,7 +14,7 @@ export function randomCard() {
     return card;
 }
 
-export function randomCards(numberOfCards) {
+function randomCards(numberOfCards) {
     const randomCards = [];
     for (let i = 0; i < numberOfCards; i++) {
         randomCards.push(randomCard());
@@ -22,12 +22,12 @@ export function randomCards(numberOfCards) {
     return randomCards;
 }
 
-export function randomHand() {
+function randomHand() {
     const randomCardNumber = Math.floor(Math.random() * 7) + 1;
     return randomCards(randomCardNumber);
 }
 
-export const TEST_PACK = {
+const TEST_PACK = {
     name: "Dice Pack",
     possibleCards: [
         cards.D4,
@@ -37,4 +37,8 @@ export const TEST_PACK = {
     ],
     cardCountToChoose: 1,
     cardCountShown: 3
+}
+
+module.exports = {
+
 }

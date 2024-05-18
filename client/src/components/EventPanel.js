@@ -15,6 +15,7 @@ function EventPanel({currentEvent, removePlayerCard, moveToNextEvent, gameState,
         if (currentEvent.eventDurationMs === INFINITE_EVENT_DURATION) return;
 
         setTimeout(() => {
+            console.log(`Moving to next event after ${currentEvent.eventDurationMs}ms`);
             moveToNextEvent();
         }, currentEvent.eventDurationMs);
     }, [currentEvent]);

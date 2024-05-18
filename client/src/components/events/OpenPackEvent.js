@@ -8,7 +8,7 @@ class OpenPackEvent extends GameEventComponent {
     handlePackOpened = (selectedCard) => {
         const {gameState} = this.props;
         this.props.setGameState(GameStateUpdater.addPlayerCardToDeck(gameState, selectedCard));
-        this.endEvent();
+        // this.endEvent();
     };
 
     render() {
