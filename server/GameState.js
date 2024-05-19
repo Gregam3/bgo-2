@@ -2,16 +2,27 @@ const GameEventLoop = require('./events/GameEventLoop');
 
 class GameState {
     constructor() {
-        this.players = [];
-        this.gameEventLoop = new GameEventLoop();
+        this.data = {
+            players: [],
+            gameEventLoop: new GameEventLoop()
+        }
     }
 
-    addPlayer() {
-        let newId = this.players.length + 1;
+    addPlayer(uuid) {
+        let existingPlayer = this.data.players.find(player => player.uuid === uuid);
+        if (existingPlayer) {
+            console.log(`Player with uuid ${uuid} already exists`);
+            return existingPlayer.id;
+        }
+
+        let newId = this.data.players.length + 1;
         console.log(`Adding player ${newId}`);
-        this.players.push({
+        this.data.players.push({
             id: newId,
-            currentTurnFinished: false
+            uuid: uuid,
+            currentTurnFinished: false,
+            hand: [],
+            deck: [],
         });
 
         return newId;

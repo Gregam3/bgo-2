@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Card from "../Card";
 import "../styles/OpenPackEvent.css";
 
@@ -8,53 +8,42 @@ const PackPhase = {
     ADD_CARD_TO_DECK: "ADD_CARD_TO_DECK",
 };
 
-class OpenPack extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            packPhase: PackPhase.OPEN_PACK,
-            selectedCard: null,
-        };
-        this.handleCardSelect = this.handleCardSelect.bind(this);
-    }
+const OpenPack = ({ packData, onPackOpened }) => {
+    const [packPhase, setPackPhase] = useState(PackPhase.OPEN_PACK);
+    const [selectedCard, setSelectedCard] = useState(null);
 
-    componentDidMount() {
-        setTimeout(() => {
-            this.setState({packPhase: PackPhase.CHOOSE_CARD});
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setPackPhase(PackPhase.CHOOSE_CARD);
         }, 1000);
-    }
 
-    handleCardSelect(card) {
-        this.setState({packPhase: PackPhase.ADD_CARD_TO_DECK, selectedCard: card}, () => {
-            setTimeout(() => {
-                this.props.onPackOpened(card);
-            }, 500);
-        });
-    }
+        return () => clearTimeout(timer);
+    }, []);
 
-    render() {
-        const {packData} = this.props;
-        const {packPhase, selectedCard} = this.state;
+    const handleCardSelect = (card) => {
+        setPackPhase(PackPhase.ADD_CARD_TO_DECK);
+        setSelectedCard(card);
+        setTimeout(() => {
+            onPackOpened(card);
+        }, 500);
+    };
 
-        console.log("Pack Data", packData);
-
-        return (
-            <div className={`pack-card-container ${packPhase}`}>
-                {packPhase === PackPhase.CHOOSE_CARD && (
-                    packData.possibleCards.map((card) => (
-                        <div key={card.id} onClick={() => this.handleCardSelect(card)}>
-                            <Card card={card}/>
-                        </div>
-                    ))
-                )}
-                {packPhase === PackPhase.ADD_CARD_TO_DECK && (
-                    <div className="selected-card">
-                        <Card card={selectedCard}/>
+    return (
+        <div className={`pack-card-container ${packPhase}`}>
+            {packPhase === PackPhase.CHOOSE_CARD && (
+                packData.possibleCards.map((card) => (
+                    <div key={card.id} onClick={() => handleCardSelect(card)}>
+                        <Card card={card} />
                     </div>
-                )}
-            </div>
-        );
-    }
-}
+                ))
+            )}
+            {packPhase === PackPhase.ADD_CARD_TO_DECK && (
+                <div className="selected-card">
+                    <Card card={selectedCard} />
+                </div>
+            )}
+        </div>
+    );
+};
 
 export default OpenPack;

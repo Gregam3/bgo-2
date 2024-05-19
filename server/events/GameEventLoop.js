@@ -1,34 +1,25 @@
+const cards = require("../../client/src/common/data/cards.json");
+const GameEvent = require("../../client/src/components/events/framework/GameEvent");
+
 const eventSequences = {
     PLAYERS_JOINING: {
-        events: [
-            {
-                name: "WAIT_FOR_PLAYERS"
-            }
-        ],
+        events: [new GameEvent("WAIT_FOR_PLAYERS")],
         nextEventSequence: "FIRST_TURN"
     },
     FIRST_TURN: {
         events: [
-            {
-                name: "DRAFT_DECK"
-            },
-            {
-                name: "DRAW_CARD",
-                repeat: 3
-            }
+            new GameEvent("DRAFT_DECK", {
+                possibleCards: [cards.D4, cards.D6, cards.D8, cards.D10],
+                cardCountToChoose: 1,
+                cardCountShown: 3
+            }),
+            new GameEvent("DRAW_CARD")
         ],
         isSimultaneous: true,
         nextEventSequence: "PLAYER_TURN"
     },
     PLAYER_TURN: {
-        events: [
-            {
-                name: "DRAW_CARD"
-            },
-            {
-                name: "PLAY_CARD"
-            }
-        ],
+        events: [new GameEvent("DRAW_CARD"), new GameEvent("PLAY_CARD")],
         isSimultaneous: false,
         allPlayers: true,
         nextEventSequence: "PLAYER_TURN"
@@ -37,31 +28,41 @@ const eventSequences = {
 
 class GameEventLoop {
     constructor() {
-        this.currentSequence = "PLAYERS_JOINING";
-        this.currentEventIndex = 0;
-        this.currentEventType = this.getCurrentEventType();
+        this.data = {
+            currentSequence: "PLAYERS_JOINING",
+            currentEventIndex: 0
+        };
+        this.data.currentEvent = this.getCurrentEvent();
     }
 
-    getCurrentEventType() {
-        const sequence = eventSequences[this.currentSequence];
+    getCurrentEvent() {
+        const sequence = eventSequences[this.data.currentSequence];
 
-        let eventType = sequence.events[this.currentEventIndex];
-        console.log("Current Sequence", eventType);
-        this.currentEventType = eventType
-        return eventType;
-    }
-
-    getNextEvent(gameState) {
-        const sequence = eventSequences[this.currentSequence];
-        this.currentEventIndex += 1;
-        if (this.currentEventIndex >= sequence.events.length) {
-            this.currentSequence = sequence.nextEventSequence;
-            this.currentEventIndex = 0;
+        if (this.data.currentEventIndex >= sequence.events.length) {
+            this.data.currentSequence = sequence.nextEventSequence;
+            this.data.currentEventIndex = 0;
         }
-        gameState.players.forEach(player => {
+
+        const event = eventSequences[this.data.currentSequence].events[this.data.currentEventIndex];
+        console.log("Current Sequence", event);
+        this.data.currentEvent = event;
+        return event;
+    }
+
+    moveToNextEvent(gameState) {
+        const sequence = eventSequences[this.data.currentSequence];
+        this.data.currentEventIndex += 1;
+
+        if (this.data.currentEventIndex >= sequence.events.length) {
+            this.data.currentSequence = sequence.nextEventSequence;
+            this.data.currentEventIndex = 0;
+        }
+
+        gameState.data.players.forEach(player => {
             player.currentTurnFinished = false;
         });
-        return this.getCurrentEventType();
+
+        this.data.currentEvent = this.getCurrentEvent();
     }
 
     finishEvent(playerId, gameState) {
@@ -70,13 +71,19 @@ class GameEventLoop {
     }
 
     findPlayer(playerId, gameState) {
-        return gameState.players.find(player => player.id === parseInt(playerId));
+        return gameState.data.players.find(player => player.id === parseInt(playerId));
     }
 
     isEventFinished(gameState) {
-        if (gameState && gameState.players) return false;
-        console.log("Checking if event is finished", gameState.players.every(player => player.currentTurnFinished));
-        return gameState.players.every(player => player.currentTurnFinished);
+        if (!gameState || !gameState.data.players) return false;
+        console.log("Checking if event is finished", gameState.data.players.every(player => player.currentTurnFinished));
+        let everyPlayerFinished = gameState.data.players.every(player => player.currentTurnFinished);
+        if (everyPlayerFinished) {
+            gameState.data.players.forEach(player => {
+                player.currentTurnFinished = false;
+            });
+        }
+        return everyPlayerFinished;
     }
 }
 

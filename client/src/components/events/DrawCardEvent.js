@@ -1,12 +1,14 @@
 import withGameEvent from './framework/withGameEvent';
 import GameStateUpdater from '../utility/GameStateUpdater';
+import {useEffect} from "react";
 
-const DrawCardEvent = ({ gameState, setGameState, endEvent }) => {
-    const onEventStart = () => {
+const DrawCardEvent = ({ gameState, setGameState, playerId, playerFinishedEvent }) => {
+    useEffect(() => {
         console.log('Draw Card Event Started');
-        setGameState(GameStateUpdater.drawCardToHand(gameState, gameState.playerDeck[0]));
-        endEvent();
-    };
+        let newGameState = GameStateUpdater.drawCardFromDeck(gameState, playerId);
+        setGameState(newGameState);
+        playerFinishedEvent(newGameState);
+    }, []);
 
     return null;
 };

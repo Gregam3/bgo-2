@@ -5,10 +5,17 @@
  * to write some basic cards and events.
  */
 export default class GameStateUpdater {
-    static addPlayerCardToDeck = (gameState, newCard) => {
-        let newPlayerDeck = gameState.playerDeck;
-        newPlayerDeck.push(newCard);
-        return {...gameState, playerDeck: newPlayerDeck};
+    static addPlayerCardToDeck(gameState, playerId, newCard) {
+        let playerIndex = gameState.players.findIndex(player => player.id === playerId);
+        if (playerIndex === -1) {
+            throw new Error(`Player with id ${playerId} not found`);
+        }
+        let updatedPlayers = [...gameState.players];
+        updatedPlayers[playerIndex] = {
+            ...updatedPlayers[playerIndex],
+            deck: [...updatedPlayers[playerIndex].deck, newCard]
+        };
+        return { ...gameState, players: updatedPlayers };
     }
 
     static removePlayerCardFromHand = (gameState, cardToDelete) => {
@@ -16,15 +23,30 @@ export default class GameStateUpdater {
         return {...gameState, playerHand: newPlayerHand};
     }
 
-    static addSelectedCardToDeck(gameState, selectedCard) {
-        const newGameState = {...gameState};
-        newGameState.playerDeck = [...newGameState.playerDeck, selectedCard];
-        return newGameState;
+    static addSelectedCardToDeck(gameState, playerId, selectedCard) {
+        const playerIndex = gameState.players.findIndex(player => player.id === playerId);
+        if (playerIndex === -1) {
+            throw new Error(`Player with id ${playerId} not found`);
+        }
+
+        const updatedPlayers = [...gameState.players];
+        updatedPlayers[playerIndex] = {
+            ...updatedPlayers[playerIndex],
+            deck: [...updatedPlayers[playerIndex].deck, selectedCard]
+        };
+
+        return { ...gameState, players: updatedPlayers };
     }
 
-    static drawCardToHand(gameState, selectedCard) {
+
+    static drawCardFromDeck(gameState, playerId) {
+        let playerIndex = gameState.players.findIndex(player => player.id === playerId);
+        if (playerIndex === -1) {
+            throw new Error(`Player with id ${playerId} not found`);
+        }
         const newGameState = {...gameState};
-        newGameState.playerHand = [...newGameState.playerHand, selectedCard];
+        newGameState.players[playerIndex].hand = [...gameState.players[playerIndex].hand, gameState.players[playerIndex].deck[0]];
+        newGameState.players[playerIndex].deck = gameState.players[playerIndex].deck.slice(1);
         return newGameState;
     }
 

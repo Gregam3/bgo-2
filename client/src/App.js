@@ -2,11 +2,9 @@ import './App.css';
 import PlayerCards from "./components/PlayerCards";
 import EventPanel from "./components/EventPanel";
 import { useState, useEffect } from "react";
-import { GameEvent } from './common/classes/GameEvent';
 import GameStateUpdater from "./components/utility/GameStateUpdater";
-import {GameEventTypesClient, getClientGameEventType} from "./components/events/framework/GameEventTypesClient";
 import axios from "axios";
-import cards from "./common/data/cards.json";
+import { v4 as uuidv4 } from 'uuid';
 
 function App() {
     const [eventQueue, setEventQueue] = useState([]);
@@ -14,7 +12,13 @@ function App() {
     const [gameState, setGameState] = useState(null);
 
     useEffect(() => {
-        axios.post("http://localhost:3001/add-player")
+        let playerUUID = getCookie("playerUUID");
+        if (!playerUUID) {
+            playerUUID = uuidv4();
+            setCookie("playerUUID", playerUUID, 365);
+        }
+
+        axios.post("http://localhost:3001/add-player", { playerUUID })
             .then(response => {
                 setPlayerId(response.data.playerId);
             })
@@ -24,20 +28,15 @@ function App() {
     }, []);
 
     useEffect(() => {
-        if (gameState === null) return;
-        console.log("Setting current event to: ", gameState.gameEventLoop);
-        setEventQueue([gameState.gameEventLoop.currentEventType]);
-    }, [gameState]);
-
-    useEffect(() => {
         if (playerId === null) return;
 
         const ws = new WebSocket('ws://localhost:3001');
 
         ws.onmessage = (event) => {
-            const gameState = JSON.parse(event.data);
-            console.log("Received event: ", gameState);
-            setGameState(gameState);
+            const responseGameState = JSON.parse(event.data);
+            console.log("Received event: ", responseGameState);
+            setGameState(responseGameState);
+            setEventQueue([responseGameState.gameEventLoop.data.currentEvent]);
         };
 
         return () => {
@@ -61,9 +60,13 @@ function App() {
         updateGameStateProperty("playerHand", GameStateUpdater.removePlayerCardFromHand(gameState, cardToDelete));
     };
 
-    const playerFinishedEvent = () => {
-        axios.post(`http://localhost:3001/finish-event/${playerId}`)
-            .then(() => {
+    const playerFinishedEvent = (gameState) => {
+        if (eventQueue.length > 1) {
+            endCurrentEvent();
+            return;
+        }
+        axios.post(`http://localhost:3001/finish-event/${playerId}`, {gameState})
+            .then(response => {
                 console.log("Player finished event");
             })
             .catch(error => {
@@ -75,23 +78,21 @@ function App() {
         return "";
     }
 
-    console.log(gameState, playerId)
-
     return (
         <div className="app-container">
             <div className="background-container">
                 <div className="app-content">
                     <EventPanel
                         currentEvent={eventQueue[0]}
+                        playerId={playerId}
                         removePlayerCard={removePlayerCard}
-                        moveToNextEvent={playerFinishedEvent}
+                        playerFinishedEvent={playerFinishedEvent}
                         gameState={gameState}
                         setGameState={setGameState}
-                        endCurrentEvent={endCurrentEvent}
                     />
                     <PlayerCards
-                        playerHand={[]}
-                        playerDeck={[]}
+                        playerHand={gameState?.players?.find(player => player.id === playerId).hand || []}
+                        playerDeck={gameState?.players?.find(player => player.id === playerId).deck || []}
                         addEvent={handleAddEvent}
                         playerId={playerId}
                     />
@@ -99,6 +100,19 @@ function App() {
             </div>
         </div>
     );
+}
+
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+function setCookie(name, value, days) {
+    const date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    const expires = `expires=${date.toUTCString()}`;
+    document.cookie = `${name}=${value}; ${expires}; path=/`;
 }
 
 export default App;

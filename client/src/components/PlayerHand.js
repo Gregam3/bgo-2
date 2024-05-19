@@ -23,6 +23,8 @@ function PlayerHand({playerHand, selectedHandIndexes, setSelectedHandIndexes}) {
         }
     }
 
+    if (!playerHand) return null;
+
     return (
         <div className={"hand-container"}>
             <ul className={"player-hand"}>

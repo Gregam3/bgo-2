@@ -4,9 +4,9 @@ import '../styles/OpenPackEvent.css';
 import withGameEvent from './framework/withGameEvent';
 import GameStateUpdater from '../utility/GameStateUpdater';
 
-const OpenPackEvent = ({ gameState, setGameState, packData, endEvent }) => {
+const OpenPackEvent = ({ gameState, setGameState, playerId, packData, endEvent }) => {
     const handlePackOpened = (selectedCard) => {
-        setGameState(GameStateUpdater.addPlayerCardToDeck(gameState, selectedCard));
+        setGameState(GameStateUpdater.addSelectedCardToDeck(gameState, playerId, selectedCard));
         endEvent();
     };
 
