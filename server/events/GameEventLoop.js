@@ -13,7 +13,7 @@ const eventSequences = {
                 cardCountToChoose: 1,
                 cardCountShown: 3
             }),
-            new GameEvent("DRAW_CARD")
+            new GameEvent("DRAW_CARD", {repeatTimes: 3}),
         ],
         isSimultaneous: true,
         nextEventSequence: "PLAYER_TURN"

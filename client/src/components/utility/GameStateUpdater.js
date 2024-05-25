@@ -38,7 +38,6 @@ export default class GameStateUpdater {
         return { ...gameState, players: updatedPlayers };
     }
 
-
     static drawCardFromDeck(gameState, playerId) {
         let playerIndex = gameState.players.findIndex(player => player.id === playerId);
         if (playerIndex === -1) {
@@ -47,6 +46,14 @@ export default class GameStateUpdater {
         const newGameState = {...gameState};
         newGameState.players[playerIndex].hand = [...gameState.players[playerIndex].hand, gameState.players[playerIndex].deck[0]];
         newGameState.players[playerIndex].deck = gameState.players[playerIndex].deck.slice(1);
+        return newGameState;
+    }
+
+    static drawCardsFromDeck(gameState, playerId, repeatTimes) {
+        let newGameState = {...gameState};
+        for (let i = 0; i < repeatTimes; i++) {
+            newGameState = GameStateUpdater.drawCardFromDeck(newGameState, playerId);
+        }
         return newGameState;
     }
 

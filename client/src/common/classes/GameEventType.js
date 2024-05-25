@@ -17,7 +17,8 @@ export class GameEventType {
                 <WaitingForPlayers gameState={gameState} playerFinishedEvent={playerFinishedEvent}/>),
         DRAW_CARD: new GameEventType("DRAW_CARD", "Draw a card",
             (eventData, gameState, setGameState, playerId, playerFinishedEvent) =>
-                <DrawCardEvent gameState={gameState} setGameState={setGameState}
+                <DrawCardEvent eventData={eventData}
+                               gameState={gameState} setGameState={setGameState}
                                playerId={playerId}
                                playerFinishedEvent={playerFinishedEvent}/>),
         PLAY_CARD: new GameEventType("PLAY_CARD", "Play a card from your hand",

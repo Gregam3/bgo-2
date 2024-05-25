@@ -13,13 +13,18 @@ const DraftDeckEvent = ({numberOfPacksToOpen, gameState, playerId, setGameState,
     };
 
     const handlePackOpened = (selectedCard) => {
-        currentPackIndex.current += 1;
         setSelectedCard(selectedCard);
-        setGameState(GameStateUpdater.addSelectedCardToDeck(gameState, playerId, selectedCard));
+        setGameState(prevState => {
+            const newState = GameStateUpdater.addSelectedCardToDeck(prevState, playerId, selectedCard);
 
-        if (currentPackIndex.current >= numberOfPacksToOpen) {
-            playerFinishedEvent(gameState);
-        }
+            if (currentPackIndex.current + 1 >= numberOfPacksToOpen) {
+                playerFinishedEvent(newState);
+            }
+
+            currentPackIndex.current += 1;
+
+            return newState;
+        });
     };
 
     return (
