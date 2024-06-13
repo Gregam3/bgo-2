@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Card from "../Card";
+import CardDisplay from "../CardDisplay";
 import "../styles/OpenPackEvent.css";
 
 const PackPhase = {
@@ -15,7 +15,7 @@ const OpenPack = ({ packData, onPackOpened }) => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setPackPhase(PackPhase.CHOOSE_CARD);
-        }, 1000);
+        }, 200);
 
         return () => clearTimeout(timer);
     }, []);
@@ -25,7 +25,7 @@ const OpenPack = ({ packData, onPackOpened }) => {
         setSelectedCard(card);
         setTimeout(() => {
             onPackOpened(card);
-        }, 500);
+        }, 200);
     };
 
     return (
@@ -33,13 +33,13 @@ const OpenPack = ({ packData, onPackOpened }) => {
             {packPhase === PackPhase.CHOOSE_CARD && (
                 packData.possibleCards.map((card) => (
                     <div key={card.id} onClick={() => handleCardSelect(card)}>
-                        <Card card={card} />
+                        <CardDisplay card={card} />
                     </div>
                 ))
             )}
             {packPhase === PackPhase.ADD_CARD_TO_DECK && (
                 <div className="selected-card">
-                    <Card card={selectedCard} />
+                    <CardDisplay card={selectedCard} />
                 </div>
             )}
         </div>

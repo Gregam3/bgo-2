@@ -15,6 +15,7 @@ const DraftDeckEvent = ({numberOfPacksToOpen, gameState, playerId, setGameState,
     const handlePackOpened = (selectedCard) => {
         setSelectedCard(selectedCard);
         setGameState(prevState => {
+            console.log(GameStateUpdater)
             const newState = GameStateUpdater.addSelectedCardToDeck(prevState, playerId, selectedCard);
 
             if (currentPackIndex.current + 1 >= numberOfPacksToOpen) {

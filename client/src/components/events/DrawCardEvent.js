@@ -4,11 +4,20 @@ import {useEffect} from "react";
 
 const DrawCardEvent = ({ eventData, gameState, setGameState, playerId, playerFinishedEvent }) => {
     useEffect(() => {
-        console.log('Draw Card Event Started');
-        let newGameState = GameStateUpdater.drawCardsFromDeck(gameState, playerId, eventData.repeatTimes);
+        console.log('Draw Card Event Started', eventData);
+
+        let newGameState;
+
+        if (eventData) {
+            newGameState = GameStateUpdater.drawCardsFromDeck(gameState, playerId, eventData.repeatTimes);
+        } else {
+            newGameState = GameStateUpdater.drawCardFromDeck(gameState, playerId);
+        }
         setGameState(newGameState);
         playerFinishedEvent(newGameState);
-    }, []);
+
+        console.log('Draw Card Event Finished');
+    }, [eventData]);
 
     return null;
 };

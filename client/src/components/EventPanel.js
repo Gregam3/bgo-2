@@ -3,13 +3,7 @@ import "./styles/EventPanel.css";
 import {INFINITE_EVENT_DURATION} from "../common/classes/GameEvent";
 import {GameEventType} from "../common/classes/GameEventType";
 
-function EventPanel({currentEvent, removePlayerCard, playerId,  playerFinishedEvent, gameState, setGameState}) {
-    useEffect(() => {
-        if (currentEvent && currentEvent.name === "PLAY_CARD") {
-            removePlayerCard(currentEvent.eventData);
-        }
-    }, [currentEvent]);
-
+function EventPanel({currentEvent, playerId,  playerFinishedEvent, gameState, setGameState}) {
     useEffect(() => {
         if (!currentEvent) return;
         if (currentEvent.eventDurationMs === INFINITE_EVENT_DURATION || !currentEvent.eventDurationMs) return;

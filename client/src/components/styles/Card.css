@@ -12,17 +12,22 @@
     user-select: none;
     margin: 10px;
     transform: perspective(800px) rotateX(10deg);
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s, opacity 1s;
 }
 
 .card:hover {
     transform: perspective(800px) rotateX(0deg) translateY(-10px);
     box-shadow: 0 20px 30px rgba(0, 0, 0, 0.4), inset 0 0 10px rgba(0, 0, 0, 0.3);
-    /*animation: shake 0.3s;*/
 }
 
 .played {
     animation: played 1.6s;
+    opacity: 1;
+}
+
+.play-complete {
+    opacity: 0;
+    display: none;
 }
 
 .card.played:hover {
@@ -75,25 +80,8 @@
     font-family: 'Sedan SC', sans-serif;
 }
 
-@keyframes shake {
-    0% {
-        transform: rotate(0deg);
-    }
-    25% {
-        transform: rotate(0deg);
-    }
-    50% {
-        transform: rotate(0deg);
-    }
-    60% {
-        transform: rotate(-2deg);
-    }
-    80% {
-        transform: rotate(2deg);
-    }
-    100% {
-        transform: rotate(0deg);
-    }
+.hidden {
+    display: none;
 }
 
 @keyframes played {

@@ -28,6 +28,10 @@
     background-color: #0095ff;
 }
 
+.hand-ui .end-turn-button {
+    background-color: #f2eb21;
+}
+
 .hand-ui .discard-button {
     background-color: #f44336;
 }

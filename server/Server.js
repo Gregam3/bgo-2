@@ -8,11 +8,17 @@ const WebSocket = require('ws');
 const GameState = require('./GameState');
 const cors = require('cors');
 const Lock = require('./events/Lock');
+const DiceCards = require("./events/cards/DiceCards");
+const GameStateUpdater = require("../client/src/components/utility/GameStateUpdater");
 
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({server});
-const lock = new Lock();
+
+const ALL_CARDS_MAP = DiceCards.ALL_CARDS.reduce((map, card) => {
+    map[card.cardId] = card;
+    return map;
+}, {});
 
 // Enable CORS for all routes with more configuration
 app.use(cors({
@@ -40,6 +46,11 @@ app.post('/add-player', (req, res) => {
     const {playerUUID} = req.body;
     let playerId = gameState.addPlayer(playerUUID);
     res.status(200).json({playerId});
+});
+
+app.post('/reset-game-state', (req, res) => {
+    gameState = new GameState();
+    res.sendStatus(200);
 });
 
 function updateGameState(newGameStateData, oldGameStateData) {
@@ -72,6 +83,21 @@ app.post('/finish-event/:playerId', async (req, res) => {
             }
         });
     }
+
+    res.sendStatus(200);
+});
+
+app.post('/play-card', async (req, res) => {
+    const {clientGameState, playedCard, playerId} = req.body;
+
+    gameState.data = updateGameState(ALL_CARDS_MAP[playedCard.cardId].gameStateEffect(clientGameState, playerId), gameState.data);
+    gameState.data = GameStateUpdater.moveCardFromPlayerHandToDeck(gameState.data, playerId, playedCard);
+
+    wss.clients.forEach(client => {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify(gameState.data));
+        }
+    });
 
     res.sendStatus(200);
 });

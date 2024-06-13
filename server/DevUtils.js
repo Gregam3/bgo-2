@@ -6,21 +6,21 @@ function uuidv4() {
     );
 }
 
-function randomCard() {
-    const cardKeys = Object.keys(cards);
-    const randomKey = cardKeys[Math.floor(Math.random() * cardKeys.length)];
-    let card = {...cards[randomKey]};
-    card.id = uuidv4();
-    return card;
-}
-
-function randomCards(numberOfCards) {
-    const randomCards = [];
-    for (let i = 0; i < numberOfCards; i++) {
-        randomCards.push(randomCard());
-    }
-    return randomCards;
-}
+// function randomCard() {
+//     const cardKeys = Object.keys(cards);
+//     const randomKey = cardKeys[Math.floor(Math.random() * cardKeys.length)];
+//     let card = {...cards[randomKey]};
+//     card.id = uuidv4();
+//     return card;
+// }
+//
+// function randomCards(numberOfCards) {
+//     const randomCards = [];
+//     for (let i = 0; i < numberOfCards; i++) {
+//         randomCards.push(randomCard());
+//     }
+//     return randomCards;
+// }
 
 function randomHand() {
     const randomCardNumber = Math.floor(Math.random() * 7) + 1;

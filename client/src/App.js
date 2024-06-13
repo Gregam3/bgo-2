@@ -2,9 +2,9 @@ import './App.css';
 import PlayerCards from "./components/PlayerCards";
 import EventPanel from "./components/EventPanel";
 import { useState, useEffect } from "react";
-import GameStateUpdater from "./components/utility/GameStateUpdater";
 import axios from "axios";
 import { v4 as uuidv4 } from 'uuid';
+import {Board} from "./components/Board";
 
 function App() {
     const [eventQueue, setEventQueue] = useState([]);
@@ -56,11 +56,8 @@ function App() {
         setEventQueue([...eventQueue, event]);
     };
 
-    const removePlayerCard = (cardToDelete) => {
-        updateGameStateProperty("playerHand", GameStateUpdater.removePlayerCardFromHand(gameState, cardToDelete));
-    };
-
     const playerFinishedEvent = (gameState) => {
+        console.log("Player finished event")
         if (eventQueue.length > 1) {
             endCurrentEvent();
             return;
@@ -74,6 +71,18 @@ function App() {
             });
     };
 
+    const resetGameState = () => {
+        axios.post("http://localhost:3001/reset-game-state")
+            .then(response => {
+                console.log("Game state reset");
+                // refresh the page
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error("There was an error resetting the game state:", error);
+            });
+    }
+
     if (!gameState) {
         return "";
     }
@@ -82,15 +91,19 @@ function App() {
         <div className="app-container">
             <div className="background-container">
                 <div className="app-content">
+                    <button style={{width: 200}} onClick={resetGameState}>Reset game state</button>
+                    <Board tileCount={30} gameState={gameState}/>
                     <EventPanel
                         currentEvent={eventQueue[0]}
                         playerId={playerId}
-                        removePlayerCard={removePlayerCard}
                         playerFinishedEvent={playerFinishedEvent}
                         gameState={gameState}
                         setGameState={setGameState}
                     />
                     <PlayerCards
+                        gameState={gameState}
+                        setGameState={setGameState}
+                        playerFinishedEvent={playerFinishedEvent}
                         playerHand={gameState?.players?.find(player => player.id === playerId).hand || []}
                         playerDeck={gameState?.players?.find(player => player.id === playerId).deck || []}
                         addEvent={handleAddEvent}

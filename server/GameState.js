@@ -23,6 +23,7 @@ class GameState {
             currentTurnFinished: false,
             hand: [],
             deck: [],
+            tile: 0
         });
 
         return newId;

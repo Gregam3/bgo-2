@@ -1,5 +1,6 @@
-const cards = require("../../client/src/common/data/cards.json");
+
 const GameEvent = require("../../client/src/components/events/framework/GameEvent");
+const DiceCards = require("./cards/DiceCards");
 
 const eventSequences = {
     PLAYERS_JOINING: {
@@ -9,7 +10,7 @@ const eventSequences = {
     FIRST_TURN: {
         events: [
             new GameEvent("DRAFT_DECK", {
-                possibleCards: [cards.D4, cards.D6, cards.D8, cards.D10],
+                possibleCards: [DiceCards.D4, DiceCards.D6, DiceCards.D8, DiceCards.D10],
                 cardCountToChoose: 1,
                 cardCountShown: 3
             }),
@@ -19,7 +20,7 @@ const eventSequences = {
         nextEventSequence: "PLAYER_TURN"
     },
     PLAYER_TURN: {
-        events: [new GameEvent("DRAW_CARD"), new GameEvent("PLAY_CARD")],
+        events: [new GameEvent("DRAW_CARD"), new GameEvent("CHOOSE_CARDS_TO_PLAY")],
         isSimultaneous: false,
         allPlayers: true,
         nextEventSequence: "PLAYER_TURN"

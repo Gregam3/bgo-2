@@ -22,7 +22,7 @@
     height: 150px;
     background-image: url("/public/images/card-background-5.png");
     background-size: cover;
-    animation: openPack 3s forwards;
+    animation: openPack 1s forwards;
 }
 
 @keyframes openPack {

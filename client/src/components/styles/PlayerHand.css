@@ -2,6 +2,7 @@
     width: 100%;
     margin-left: 20%;
     height: 400px;
+    z-index: 1;
 }
 
 .player-hand {
