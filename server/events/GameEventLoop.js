@@ -16,15 +16,13 @@ const eventSequences = {
             }),
             new GameEvent("DRAW_CARD", {repeatTimes: 3}),
         ],
-        isSimultaneous: true,
         nextEventSequence: "PLAYER_TURN"
     },
     PLAYER_TURN: {
-        events: [new GameEvent("DRAW_CARD"), new GameEvent("CHOOSE_CARDS_TO_PLAY")],
-        isSimultaneous: false,
+        events: [new GameEvent("DRAW_CARD"), new GameEvent("CHOOSE_CARDS_TO_PLAY", {}, false)],
         allPlayers: true,
         nextEventSequence: "PLAYER_TURN"
-    }
+    },
 };
 
 class GameEventLoop {
@@ -34,6 +32,7 @@ class GameEventLoop {
             currentEventIndex: 0
         };
         this.data.currentEvent = this.getCurrentEvent();
+        this.data.playerTurnIndex = 0;
     }
 
     getCurrentEvent() {
@@ -53,6 +52,15 @@ class GameEventLoop {
     moveToNextEvent(gameState) {
         const sequence = eventSequences[this.data.currentSequence];
         this.data.currentEventIndex += 1;
+
+        if (this.data.currentEvent.isSimultaneous === false) {
+            if (this.data.playerTurnIndex + 1 >= gameState.data.players.length) {
+                this.data.playerTurnIndex = 0;
+            } else {
+                this.data.playerTurnIndex += 1;
+                return;
+            }
+        }
 
         if (this.data.currentEventIndex >= sequence.events.length) {
             this.data.currentSequence = sequence.nextEventSequence;

@@ -2,6 +2,7 @@ import React, {useRef, useState} from 'react';
 import OpenPack from './OpenPack';
 import GameStateUpdater from '../utility/GameStateUpdater';
 import withGameEvent from './framework/withGameEvent';
+import {WaitingForOtherPlayers} from "./WaitingForOtherPlayers";
 
 const DraftDeckEvent = ({numberOfPacksToOpen, gameState, playerId, setGameState, draftData, playerFinishedEvent}) => {
     const currentPackIndex = useRef(0);
@@ -27,6 +28,10 @@ const DraftDeckEvent = ({numberOfPacksToOpen, gameState, playerId, setGameState,
             return newState;
         });
     };
+
+    if (currentPackIndex.current > numberOfPacksToOpen) {
+        return <WaitingForOtherPlayers/>;
+    }
 
     return (
         <div className="draft-deck-container">

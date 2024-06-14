@@ -74,15 +74,17 @@ app.post('/finish-event/:playerId', async (req, res) => {
     gameState.data = updateGameState(req.body.gameState, gameState.data)
     gameState.data.gameEventLoop.finishEvent(playerId, gameState);
 
-    if (gameState.data.gameEventLoop.isEventFinished(gameState)) {
+    let gameEventLoop = gameState.data.gameEventLoop;
+    if (gameEventLoop.isEventFinished(gameState) || gameEventLoop.data.currentEvent.isSimultaneous === false) {
         console.log("Event finished, sending next event");
         gameState.data.gameEventLoop.moveToNextEvent(gameState);
-        wss.clients.forEach(client => {
-            if (client.readyState === WebSocket.OPEN) {
-                client.send(JSON.stringify(gameState.data));
-            }
-        });
     }
+
+    wss.clients.forEach(client => {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify(gameState.data));
+        }
+    });
 
     res.sendStatus(200);
 });
