@@ -3,6 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@3d-dice/dice-box": "^1.0.12",
+    "@3d-dice/dice-ui": "^0.4.3",
+    "@3d-dice/fdp": "^0.1.5",
+    "@3d-dice/fui": "^0.3.4",
+    "@3d-dice/theme-wooden": "^0.1.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",

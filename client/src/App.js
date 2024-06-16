@@ -5,6 +5,9 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { v4 as uuidv4 } from 'uuid';
 import {Board} from "./components/Board";
+import GameStateUpdater from './components/utility/GameStateUpdater';
+
+export const gameStateUpdater = new GameStateUpdater(true);
 
 function App() {
     const [eventQueue, setEventQueue] = useState([]);
@@ -34,7 +37,6 @@ function App() {
 
         ws.onmessage = (event) => {
             const responseGameState = JSON.parse(event.data);
-            console.log("Received event: ", responseGameState);
             setGameState(responseGameState);
             setEventQueue([responseGameState.gameEventLoop.data.currentEvent]);
         };
@@ -48,23 +50,17 @@ function App() {
         setEventQueue(eventQueue.slice(1));
     };
 
-    const updateGameStateProperty = (key, value) => {
-        setGameState({ ...gameState, [key]: value });
-    };
-
     const handleAddEvent = (event) => {
         setEventQueue([...eventQueue, event]);
     };
 
     const playerFinishedEvent = (gameState) => {
-        console.log("Player finished event")
         if (eventQueue.length > 1) {
             endCurrentEvent();
             return;
         }
         axios.post(`http://localhost:3001/finish-event/${playerId}`, {gameState})
             .then(response => {
-                console.log("Player finished event");
             })
             .catch(error => {
                 console.error("There was an error finishing the event:", error);
@@ -74,8 +70,6 @@ function App() {
     const resetGameState = () => {
         axios.post("http://localhost:3001/reset-game-state")
             .then(response => {
-                console.log("Game state reset");
-                // refresh the page
                 window.location.reload();
             })
             .catch(error => {
@@ -98,11 +92,9 @@ function App() {
                         playerId={playerId}
                         playerFinishedEvent={playerFinishedEvent}
                         gameState={gameState}
-                        setGameState={setGameState}
                     />
                     <PlayerCards
                         gameState={gameState}
-                        setGameState={setGameState}
                         playerFinishedEvent={playerFinishedEvent}
                         playerHand={gameState?.players?.find(player => player.id === playerId).hand || []}
                         playerDeck={gameState?.players?.find(player => player.id === playerId).deck || []}

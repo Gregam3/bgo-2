@@ -23,8 +23,6 @@ function PlayerHand({playerHand, selectedHandIndexes, setSelectedHandIndexes}) {
         }
     }
 
-    console.log(playerHand)
-
     if (!playerHand) return null;
 
     return (

@@ -3,8 +3,9 @@ import OpenPack from './OpenPack';
 import GameStateUpdater from '../utility/GameStateUpdater';
 import withGameEvent from './framework/withGameEvent';
 import {WaitingForOtherPlayers} from "./WaitingForOtherPlayers";
+import {gameStateUpdater} from "../../App";
 
-const DraftDeckEvent = ({numberOfPacksToOpen, gameState, playerId, setGameState, draftData, playerFinishedEvent}) => {
+const DraftDeckEvent = ({numberOfPacksToOpen, gameState, playerId, draftData, playerFinishedEvent}) => {
     const currentPackIndex = useRef(0);
     const [selectedCard, setSelectedCard] = useState([]);
 
@@ -15,18 +16,13 @@ const DraftDeckEvent = ({numberOfPacksToOpen, gameState, playerId, setGameState,
 
     const handlePackOpened = (selectedCard) => {
         setSelectedCard(selectedCard);
-        setGameState(prevState => {
-            console.log(GameStateUpdater)
-            const newState = GameStateUpdater.addSelectedCardToDeck(prevState, playerId, selectedCard);
+        const newState = gameStateUpdater.addSelectedCardToDeck(gameState, playerId, selectedCard);
 
-            if (currentPackIndex.current + 1 >= numberOfPacksToOpen) {
-                playerFinishedEvent(newState);
-            }
+        if (currentPackIndex.current + 1 >= numberOfPacksToOpen) {
+            playerFinishedEvent(newState);
+        }
 
-            currentPackIndex.current += 1;
-
-            return newState;
-        });
+        currentPackIndex.current += 1;
     };
 
     if (currentPackIndex.current > numberOfPacksToOpen) {

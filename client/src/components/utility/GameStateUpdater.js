@@ -4,8 +4,28 @@
  * This allows for consistent state updates using the same precise methods, no reuse and possibly even allows ai
  * to write some basic cards and events.
  */
+let axios;
+
+if (typeof window !== 'undefined') {
+    // React environment
+    import('axios').then(module => {
+        axios = module.default;
+    });
+} else {
+    // Node.js environment
+    axios = require('axios');
+}
+
 class GameStateUpdater {
-    static addPlayerCardToDeck(gameState, playerId, newCard) {
+    constructor(postResult) {
+        this.postResult = postResult;
+    }
+
+    postUpdateGameState(newGameState) {
+        axios.post("http://localhost:3001/update-game-state", {newGameState})
+    }
+
+    addPlayerCardToDeck(gameState, playerId, newCard) {
         let playerIndex = gameState.players.findIndex(player => player.id === playerId);
         if (playerIndex === -1) {
             throw new Error(`Player with id ${playerId} not found`);
@@ -15,10 +35,14 @@ class GameStateUpdater {
             ...updatedPlayers[playerIndex],
             deck: [...updatedPlayers[playerIndex].deck, newCard]
         };
-        return {...gameState, players: updatedPlayers};
+        if (this.postResult) {
+            this.postUpdateGameState({...gameState, players: updatedPlayers});
+        } else {
+            return {...gameState, players: updatedPlayers};
+        }
     }
 
-    static moveCardFromPlayerHandToDeck = (gameState, playerId, playedCard) => {
+    moveCardFromPlayerHandToDeck = (gameState, playerId, playedCard) => {
         const player = gameState.players.find(player => player.id === playerId);
         const newPlayerHand = player.hand.filter(card => card.uniqueId !== playedCard.uniqueId);
         playedCard.played = false;
@@ -26,10 +50,14 @@ class GameStateUpdater {
         player.hand = newPlayerHand;
         player.deck = newDeck;
 
-        return {...gameState};
+        if (this.postResult) {
+            this.postUpdateGameState(gameState);
+        } else {
+            return gameState;
+        }
     }
 
-    static addSelectedCardToDeck(gameState, playerId, selectedCard) {
+    addSelectedCardToDeck(gameState, playerId, selectedCard) {
         const clonedSelectedCard = {...selectedCard};
         clonedSelectedCard.uniqueId = Math.random().toString(36);
         clonedSelectedCard.played = false;
@@ -44,10 +72,14 @@ class GameStateUpdater {
             deck: [...updatedPlayers[playerIndex].deck, clonedSelectedCard]
         };
 
-        return {...gameState, players: updatedPlayers};
+        if (this.postResult) {
+            this.postUpdateGameState({...gameState, players: updatedPlayers});
+        } else {
+            return {...gameState, players: updatedPlayers};
+        }
     }
 
-    static drawCardFromDeck(gameState, playerId) {
+    drawCardFromDeck(gameState, playerId) {
         let playerIndex = gameState.players.findIndex(player => player.id === playerId);
         if (playerIndex === -1) {
             throw new Error(`Player with id ${playerId} not found`);
@@ -57,18 +89,29 @@ class GameStateUpdater {
         const newGameState = {...gameState};
         newGameState.players[playerIndex].hand = [...gameState.players[playerIndex].hand, gameState.players[playerIndex].deck[0]];
         newGameState.players[playerIndex].deck = gameState.players[playerIndex].deck.slice(1);
-        return newGameState;
-    }
 
-    static drawCardsFromDeck(gameState, playerId, repeatTimes = 1) {
-        let newGameState = {...gameState};
-        for (let i = 0; i < repeatTimes; i++) {
-            newGameState = GameStateUpdater.drawCardFromDeck(newGameState, playerId);
+        if (this.postResult) {
+            this.postUpdateGameState(newGameState);
+            return newGameState;
+        } else {
+            return newGameState;
         }
-        return newGameState;
     }
 
-    static updateCard(gameState, playerId, uniqueCardId, cardChangedEntries) {
+    drawCardsFromDeck(gameState, playerId, repeatTimes = 1) {
+        let newGameState;
+        for (let i = 0; i < repeatTimes; i++) {
+            newGameState = this.drawCardFromDeck(gameState, playerId);
+        }
+
+        if (this.postResult) {
+            this.postUpdateGameState(newGameState);
+        } else {
+            return newGameState;
+        }
+    }
+
+    updateCard(gameState, playerId, uniqueCardId, cardChangedEntries) {
         const newPlayerHand = gameState.players.find(player => player.id === playerId).hand.map(card => {
             if (card.uniqueId === uniqueCardId) {
                 return {...card, ...cardChangedEntries};
@@ -82,10 +125,19 @@ class GameStateUpdater {
             return player;
         });
 
-        return {...gameState, players: updatedPlayers};
+        if (this.postResult) {
+            this.postUpdateGameState({...gameState, players: updatedPlayers});
+        } else {
+            return {...gameState, players: updatedPlayers};
+        }
     }
 }
 
-if (typeof module !== 'undefined') {
+
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+    // Node.js environment
     module.exports = GameStateUpdater;
+} else {
+    // React environment
+    window.GameStateUpdater = GameStateUpdater;
 }

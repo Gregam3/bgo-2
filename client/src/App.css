@@ -10,11 +10,12 @@
 }
 
 .background-container {
-    background-image: url("/public/images/background-test-2.webp");
-    background-size: 100%;
+    background-image: url("/public/images/background-cropped.png");
+    /*background height 90%, */
+    background-size: 100% 99.5%;
     /* offset background by 100px*/
     background-position: 0px;
-    height: 97vh;
+    height: 100vh;
     width: 100vw;
     padding: 20px;
     overflow: hidden;

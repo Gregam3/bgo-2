@@ -93,7 +93,7 @@ app.post('/play-card', async (req, res) => {
     const {clientGameState, playedCard, playerId} = req.body;
 
     gameState.data = updateGameState(ALL_CARDS_MAP[playedCard.cardId].gameStateEffect(clientGameState, playerId), gameState.data);
-    gameState.data = GameStateUpdater.moveCardFromPlayerHandToDeck(gameState.data, playerId, playedCard);
+    gameState.data = new GameStateUpdater().moveCardFromPlayerHandToDeck(gameState.data, playerId, playedCard);
 
     wss.clients.forEach(client => {
         if (client.readyState === WebSocket.OPEN) {
@@ -101,6 +101,16 @@ app.post('/play-card', async (req, res) => {
         }
     });
 
+    res.sendStatus(200);
+});
+
+app.post('/update-game-state', (req, res) => {
+    gameState.data = updateGameState(req.body.newGameState, gameState.data);
+    wss.clients.forEach(client => {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify(gameState.data));
+        }
+    });
     res.sendStatus(200);
 });
 

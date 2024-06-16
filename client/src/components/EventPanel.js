@@ -3,7 +3,7 @@ import "./styles/EventPanel.css";
 import {INFINITE_EVENT_DURATION} from "../common/classes/GameEvent";
 import {GameEventType} from "../common/classes/GameEventType";
 
-function EventPanel({currentEvent, playerId,  playerFinishedEvent, gameState, setGameState}) {
+function EventPanel({currentEvent, playerId,  playerFinishedEvent, gameState}) {
     useEffect(() => {
         if (!currentEvent) return;
         if (currentEvent.eventDurationMs === INFINITE_EVENT_DURATION || !currentEvent.eventDurationMs) return;
@@ -14,7 +14,6 @@ function EventPanel({currentEvent, playerId,  playerFinishedEvent, gameState, se
         }, currentEvent.eventDurationMs);
     }, [currentEvent]);
 
-    console.log("Current Event", currentEvent);
     if (!currentEvent) return null;
 
 
@@ -22,7 +21,7 @@ function EventPanel({currentEvent, playerId,  playerFinishedEvent, gameState, se
         <div className={"event-panel-container"}>
             {currentEvent && <div className={"current-event-container"}>
                 {GameEventType.GAME_EVENT_TYPES[currentEvent.name]
-                    .render(currentEvent.eventData, gameState, setGameState, playerId, playerFinishedEvent)}
+                    .render(currentEvent.eventData, gameState, playerId, playerFinishedEvent)}
             </div>}
         </div>
     );
