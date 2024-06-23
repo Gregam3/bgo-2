@@ -1,13 +1,13 @@
 import './App.css';
 import PlayerCards from "./components/PlayerCards";
 import EventPanel from "./components/EventPanel";
-import { useState, useEffect } from "react";
+import {useState, useEffect} from "react";
 import axios from "axios";
-import { v4 as uuidv4 } from 'uuid';
+import {v4 as uuidv4} from 'uuid';
 import {Board} from "./components/Board";
 import GameStateUpdater from './components/utility/GameStateUpdater';
 
-export const gameStateUpdater = new GameStateUpdater(true);
+export const gameStateUpdater = GameStateUpdater.poster;
 
 function App() {
     const [eventQueue, setEventQueue] = useState([]);
@@ -21,7 +21,7 @@ function App() {
             setCookie("playerUUID", playerUUID, 365);
         }
 
-        axios.post("http://localhost:3001/add-player", { playerUUID })
+        axios.post("http://localhost:3001/add-player", {playerUUID})
             .then(response => {
                 setPlayerId(response.data.playerId);
             })

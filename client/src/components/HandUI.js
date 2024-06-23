@@ -1,10 +1,8 @@
 import React from "react";
 import "./styles/HandUI.css";
-import {GameEventType} from "../common/classes/GameEventType";
-import {GameEvent} from "../common/classes/GameEvent";
-import GameStateUpdater from "./utility/GameStateUpdater";
 import axios from "axios";
 import {gameStateUpdater} from "../App";
+import {CardAnimationTypes} from "./animations/CardAnimationType";
 
 function HandUI({
                     gameState,
@@ -20,18 +18,15 @@ function HandUI({
 
     function handlePlayCard() {
         setSelectedHandIndices([]);
-        const playedCard = playerHand[selectedHandIndices[0]];
-
-        // Play card, wait for animation, then call play-card endpoint
-        gameStateUpdater.updateCard(gameState, playerId, playedCard.uniqueId, {played: true});
+        gameStateUpdater.playCard(gameState, playerId, playerHand[selectedHandIndices[0]].uniqueId);
 
         setTimeout(() => {
             axios.post(`http://localhost:3001/play-card`, {
                 clientGameState: gameState,
-                playedCard,
+                playedCard: playerHand[selectedHandIndices[0]],
                 playerId
             })
-        }, 20_000);
+        }, CardAnimationTypes[playerHand[selectedHandIndices[0]].cardId].timeoutMs);
     }
 
     return (

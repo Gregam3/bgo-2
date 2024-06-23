@@ -16,9 +16,19 @@ if (typeof window !== 'undefined') {
     axios = require('axios');
 }
 
+const POST_RESULT_STRATEGIES = {
+    'ONLY_POST': 0,
+    'RETURN_NEW_STATE': 1,
+    'POST_AND_RETURN': 2
+}
+
 class GameStateUpdater {
-    constructor(postResult) {
-        this.postResult = postResult;
+    static poster = new GameStateUpdater(POST_RESULT_STRATEGIES.ONLY_POST);
+    static returner = new GameStateUpdater(POST_RESULT_STRATEGIES.RETURN_NEW_STATE);
+    static postAndReturn = new GameStateUpdater(POST_RESULT_STRATEGIES.POST_AND_RETURN);
+
+    constructor(postStrategy) {
+        this.postResult = postStrategy;
     }
 
     postUpdateGameState(newGameState) {
@@ -35,11 +45,8 @@ class GameStateUpdater {
             ...updatedPlayers[playerIndex],
             deck: [...updatedPlayers[playerIndex].deck, newCard]
         };
-        if (this.postResult) {
-            this.postUpdateGameState({...gameState, players: updatedPlayers});
-        } else {
-            return {...gameState, players: updatedPlayers};
-        }
+
+        return this.handGameStateUpdate({...gameState, players: updatedPlayers});
     }
 
     moveCardFromPlayerHandToDeck = (gameState, playerId, playedCard) => {
@@ -50,10 +57,21 @@ class GameStateUpdater {
         player.hand = newPlayerHand;
         player.deck = newDeck;
 
-        if (this.postResult) {
-            this.postUpdateGameState(gameState);
-        } else {
-            return gameState;
+        return this.handGameStateUpdate(gameState);
+    }
+
+    handGameStateUpdate(gameState) {
+        switch (this.postResult) {
+            case POST_RESULT_STRATEGIES.ONLY_POST:
+                this.postUpdateGameState(gameState);
+                break;
+            case POST_RESULT_STRATEGIES.RETURN_NEW_STATE:
+                return gameState;
+            case POST_RESULT_STRATEGIES.POST_AND_RETURN:
+                this.postUpdateGameState(gameState);
+                return gameState;
+            default:
+                throw new Error("Invalid post result strategy");
         }
     }
 
@@ -72,11 +90,7 @@ class GameStateUpdater {
             deck: [...updatedPlayers[playerIndex].deck, clonedSelectedCard]
         };
 
-        if (this.postResult) {
-            this.postUpdateGameState({...gameState, players: updatedPlayers});
-        } else {
-            return {...gameState, players: updatedPlayers};
-        }
+        return this.handGameStateUpdate({...gameState, players: updatedPlayers});
     }
 
     drawCardFromDeck(gameState, playerId) {
@@ -90,25 +104,16 @@ class GameStateUpdater {
         newGameState.players[playerIndex].hand = [...gameState.players[playerIndex].hand, gameState.players[playerIndex].deck[0]];
         newGameState.players[playerIndex].deck = gameState.players[playerIndex].deck.slice(1);
 
-        if (this.postResult) {
-            this.postUpdateGameState(newGameState);
-            return newGameState;
-        } else {
-            return newGameState;
-        }
+        return this.handGameStateUpdate(newGameState);
     }
 
     drawCardsFromDeck(gameState, playerId, repeatTimes = 1) {
         let newGameState;
         for (let i = 0; i < repeatTimes; i++) {
-            newGameState = this.drawCardFromDeck(gameState, playerId);
+            newGameState = GameStateUpdater.returner.drawCardFromDeck(gameState, playerId);
         }
 
-        if (this.postResult) {
-            this.postUpdateGameState(newGameState);
-        } else {
-            return newGameState;
-        }
+        return this.handGameStateUpdate(newGameState);
     }
 
     updateCard(gameState, playerId, uniqueCardId, cardChangedEntries) {
@@ -125,11 +130,17 @@ class GameStateUpdater {
             return player;
         });
 
-        if (this.postResult) {
-            this.postUpdateGameState({...gameState, players: updatedPlayers});
-        } else {
-            return {...gameState, players: updatedPlayers};
-        }
+        return this.handGameStateUpdate({...gameState, players: updatedPlayers});
+    }
+
+    playCard = (gameState, playerId, uniqueCardId) => {
+        // Change card played status to true, this will trigger our animation
+        const cardPlayedGameState = GameStateUpdater.postAndReturn.updateCard(gameState, playerId, uniqueCardId, {played: true});
+        // Send to server
+        axios.post("http://localhost:3001/play-card", {
+            playedCard: cardPlayedGameState.players.find(player => player.id === playerId).hand.find(card => card.uniqueId === uniqueCardId),
+            playerId
+        });
     }
 }
 

@@ -2,15 +2,15 @@
 const Card = require("./Card");
 
 class DiceCards {
-    static gameStateEffect(gameState, playerId, diceMaxValue) {
-        const newGameState = { ...gameState };
-        const player = newGameState.players.find(player => player.id === playerId);
+    static gameStateEffect(gameStateData, playerId, diceMaxValue) {
+        const newGameStateData = { ...gameStateData };
+        const player = newGameStateData.players.find(player => player.id === playerId);
         const diceRoll = Math.floor(Math.random() * diceMaxValue) + 1;
 
         player.previousDiceRoll = diceRoll;
         player.tile += diceRoll;
 
-        return newGameState;
+        return newGameStateData;
     }
 
     static D100 = new Card(

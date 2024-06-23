@@ -10,6 +10,8 @@ const cors = require('cors');
 const Lock = require('./events/Lock');
 const DiceCards = require("./events/cards/DiceCards");
 const GameStateUpdater = require("../client/src/components/utility/GameStateUpdater");
+const _ = require("lodash");
+const GameStateManager = require("./GameStateManager");
 
 const app = express();
 const server = http.createServer(app);
@@ -31,6 +33,7 @@ app.use(cors({
 app.use(express.json());
 
 let gameState = new GameState();
+let gameStateManager = new GameStateManager(gameState, wss);
 
 wss.on('connection', (ws) => {
     console.log('New player connected');
@@ -39,6 +42,14 @@ wss.on('connection', (ws) => {
     });
     ws.send(JSON.stringify({...gameState.data}));
 });
+
+function broadcastGameStateUpdate() {
+    wss.clients.forEach(client => {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify(gameState.data));
+        }
+    });
+}
 
 app.options('*', cors()); // Enable preflight requests for all routes
 
@@ -50,28 +61,14 @@ app.post('/add-player', (req, res) => {
 
 app.post('/reset-game-state', (req, res) => {
     gameState = new GameState();
+    gameStateManager = new GameStateManager(gameState, wss);
+
     res.sendStatus(200);
 });
-
-function updateGameState(newGameStateData, oldGameStateData) {
-    if (!newGameStateData) {
-        return oldGameStateData;
-    }
-
-    gameState.data.gameEventLoop.data = {...newGameStateData.gameEventLoop.data};
-    for (let key in newGameStateData) {
-        if (key !== 'gameEventLoop') {
-            oldGameStateData[key] = newGameStateData[key];
-        }
-    }
-
-    return gameState.data;
-}
 
 app.post('/finish-event/:playerId', async (req, res) => {
     console.log("Finishing event for player", req.params);
     const {playerId} = req.params;
-    gameState.data = updateGameState(req.body.gameState, gameState.data)
     gameState.data.gameEventLoop.finishEvent(playerId, gameState);
 
     let gameEventLoop = gameState.data.gameEventLoop;
@@ -80,40 +77,28 @@ app.post('/finish-event/:playerId', async (req, res) => {
         gameState.data.gameEventLoop.moveToNextEvent(gameState);
     }
 
-    wss.clients.forEach(client => {
-        if (client.readyState === WebSocket.OPEN) {
-            client.send(JSON.stringify(gameState.data));
-        }
-    });
-
-    res.sendStatus(200);
-});
-
-app.post('/play-card', async (req, res) => {
-    const {clientGameState, playedCard, playerId} = req.body;
-
-    gameState.data = updateGameState(ALL_CARDS_MAP[playedCard.cardId].gameStateEffect(clientGameState, playerId), gameState.data);
-    gameState.data = new GameStateUpdater().moveCardFromPlayerHandToDeck(gameState.data, playerId, playedCard);
-
-    wss.clients.forEach(client => {
-        if (client.readyState === WebSocket.OPEN) {
-            client.send(JSON.stringify(gameState.data));
-        }
-    });
+    broadcastGameStateUpdate();
 
     res.sendStatus(200);
 });
 
 app.post('/update-game-state', (req, res) => {
-    gameState.data = updateGameState(req.body.newGameState, gameState.data);
-    wss.clients.forEach(client => {
-        if (client.readyState === WebSocket.OPEN) {
-            client.send(JSON.stringify(gameState.data));
-        }
-    });
+    gameStateManager.addUpdate(req.body.newGameState);
+
     res.sendStatus(200);
 });
 
+app.post('/play-card', (req, res) => {
+    const {playedCard, playerId} = req.body;
+
+    let cardObject = ALL_CARDS_MAP[playedCard.cardId];
+
+    setTimeout(() => {
+        gameStateManager.addUpdate(cardObject.invoke(gameState.data, playerId));
+    }, cardObject.timeoutMs);
+
+    res.sendStatus(200);
+});
 
 const port = 3001;
 server.listen(port, () => {
