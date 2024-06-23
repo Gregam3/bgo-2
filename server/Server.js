@@ -73,7 +73,6 @@ app.post('/finish-event/:playerId', async (req, res) => {
 
     let gameEventLoop = gameState.data.gameEventLoop;
     if (gameEventLoop.isEventFinished(gameState) || gameEventLoop.data.currentEvent.isSimultaneous === false) {
-        console.log("Event finished, sending next event");
         gameState.data.gameEventLoop.moveToNextEvent(gameState);
     }
 

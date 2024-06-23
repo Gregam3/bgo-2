@@ -33,7 +33,7 @@ class GameStateManager {
     async applyUpdate(update) {
         this.gameState.data = this.mergeGameStateUpdate(this.gameState.data, update);
 
-        await this.broadcastGameStateUpdate('Queue update');
+        await this.broadcastGameStateUpdate();
     }
 
     mergeGameStateUpdate(currentState, update) {
@@ -44,8 +44,7 @@ class GameStateManager {
         });
     }
 
-    async broadcastGameStateUpdate(triggerName) {
-        console.log(`${new Date()} - Broadcasting game state update for '${triggerName}'`)
+    async broadcastGameStateUpdate() {
         this.wss.clients.forEach(client => {
             if (client.readyState === WebSocket.OPEN) {
                 client.send(JSON.stringify(this.gameState.data));

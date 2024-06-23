@@ -13,6 +13,7 @@ function App() {
     const [eventQueue, setEventQueue] = useState([]);
     const [playerId, setPlayerId] = useState(null);
     const [gameState, setGameState] = useState(null);
+    const [gameStateUpdates, setGameStateUpdates] = useState([]);
 
     useEffect(() => {
         let playerUUID = getCookie("playerUUID");
@@ -39,6 +40,7 @@ function App() {
             const responseGameState = JSON.parse(event.data);
             setGameState(responseGameState);
             setEventQueue([responseGameState.gameEventLoop.data.currentEvent]);
+            setGameStateUpdates(prevState => [...prevState, {time: new Date(), gameState: responseGameState}]);
         };
 
         return () => {
@@ -102,6 +104,13 @@ function App() {
                         playerId={playerId}
                     />
                 </div>
+            </div>
+            <div className={"event-log"}>
+                {gameStateUpdates.map((update, index) => {
+                    return <div key={index}>
+                        <h3>{update.time.toLocaleTimeString()}</h3>
+                    </div>
+                })}
             </div>
         </div>
     );

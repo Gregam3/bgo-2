@@ -19,14 +19,6 @@ function HandUI({
     function handlePlayCard() {
         setSelectedHandIndices([]);
         gameStateUpdater.playCard(gameState, playerId, playerHand[selectedHandIndices[0]].uniqueId);
-
-        setTimeout(() => {
-            axios.post(`http://localhost:3001/play-card`, {
-                clientGameState: gameState,
-                playedCard: playerHand[selectedHandIndices[0]],
-                playerId
-            })
-        }, CardAnimationTypes[playerHand[selectedHandIndices[0]].cardId].timeoutMs);
     }
 
     return (

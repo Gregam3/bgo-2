@@ -16,7 +16,6 @@ function EventPanel({currentEvent, playerId,  playerFinishedEvent, gameState}) {
 
     if (!currentEvent) return null;
 
-
     return (
         <div className={"event-panel-container"}>
             {currentEvent && <div className={"current-event-container"}>

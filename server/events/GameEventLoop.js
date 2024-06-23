@@ -14,12 +14,11 @@ const eventSequences = {
                 cardCountToChoose: 1,
                 cardCountShown: 3
             }),
-            new GameEvent("DRAW_CARD", {repeatTimes: 3}),
         ],
         nextEventSequence: "PLAYER_TURN"
     },
     PLAYER_TURN: {
-        events: [new GameEvent("DRAW_CARD"), new GameEvent("CHOOSE_CARDS_TO_PLAY", {}, false)],
+        events: [new GameEvent("DRAW_CARD", {repeatTimes: 3}), new GameEvent("CHOOSE_CARDS_TO_PLAY", {}, false)],
         allPlayers: true,
         nextEventSequence: "PLAYER_TURN"
     },
@@ -72,6 +71,7 @@ class GameEventLoop {
         });
 
         this.data.currentEvent = this.getCurrentEvent();
+        console.log("Moving to next event", this.data.currentEvent);
     }
 
     finishEvent(playerId, gameState) {
@@ -84,7 +84,6 @@ class GameEventLoop {
     }
 
     isEventFinished(gameState) {
-        if (!gameState || !gameState.data.players) return false;
         console.log("Checking if event is finished", gameState.data.players.every(player => player.currentTurnFinished));
         let everyPlayerFinished = gameState.data.players.every(player => player.currentTurnFinished);
         if (everyPlayerFinished) {
